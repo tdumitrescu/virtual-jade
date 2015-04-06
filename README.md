@@ -10,11 +10,19 @@
 [![Gittip][gittip-image]][gittip-url]
 
 Server-side function to compile your [jade](https://github.com/jadejs/jade) templates into [virtual-dom](https://github.com/Matt-Esch/virtual-dom) functions.
+For people who like reactive templating, but:
+
+- Don't like writing HTML or JSX
+- Want to handle events themselves
+- Like modularity and granularity
 
 Create a template:
 
 ```jade
-.Item(class=item.active ? 'active' : '')
+.Item(
+  class=item.active ? 'active' : ''
+  data-id=item.id
+)
   .Item-title= item.title
   .Item-description= item.description
 ```
@@ -27,11 +35,15 @@ const h = require('virtual-dom/h')
 
 const renderItem = require('./item.jade')
 
+const locals = {
+  items: []
+}
+
 // create a render function using the templates
 function render(locals) {
   // note: this could be included in the template,
   // which would remove the requirement of creating this function
-  return h('.items', locals.items.map(renderItem))
+  return h('.Items', locals.items.map(renderItem))
 }
 
 let rootTree = render(locals)
@@ -45,29 +57,59 @@ Later, you can update the nodes:
 const patch = require('virtual-dom/patch')
 const diff = require('virtual-dom/diff')
 
+let updating = false
+
 locals.items.push({
   title: 'new item',
-  description: 'new description'
+  description: 'new description',
+  active: true,
 })
 
-requestAnimationFrame(function () {
-  let newTree = render(locals)
-  let patches = diff(rootTree, newTree)
-  rootNode = patch(rootNode, patches)
-  rootTree = newTree
+update()
+function update() {
+  if (updating) return
+  updating = true
+  requestAnimationFrame(function () {
+    let newTree = render(locals)
+    let patches = diff(rootTree, newTree)
+    rootNode = patch(rootNode, patches)
+    rootTree = newTree
+    updating = false
+  })
+}
+```
+
+You can now bind events however you want:
+
+```js
+document.addEventListener('click', function (e) {
+  let el = e.target.closest('.Items > .Item')
+  if (!el) return
+
+  e.preventDefault()
+
+  let id = el.data('id')
+  locals.items.forEach(function (item) {
+    item.active = item.id === id
+  })
+
+  update()
 })
 ```
+
 
 ## Notes
 
 - Requires a CommonJS environment for client-side `require()`s.
 - Requires you to install [virtual-dom](https://github.com/Matt-Esch/virtual-dom) on the client via `npm`.
+- All templates must return a single root element.
 
 ## API
 
 ### str = render(src, options)
 
 `src` is the jade source.
+`str` is output JS that you should include as a CommonJS module.
 
 Options are:
 

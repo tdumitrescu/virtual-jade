@@ -11,7 +11,7 @@
     "lazyrequire": "^1.2.1"
   },
   "devDependencies": {
-    "istanbul": "0",
+    "istanbul-harmony": "0",
     "js-beautify": "^1.5.5",
     "mocha": "2",
     "standardberry": "*",

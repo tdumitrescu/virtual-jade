@@ -8,16 +8,35 @@ const fs = require('fs')
 const Compiler = require('../lib/compiler')
 
 describe('Compiler', function () {
+  it('should throw if there is not exactly 1 tag', function () {
+    assert.throws(function () {
+      testCompilation('root-if')
+    })
+
+    assert.throws(function () {
+      testCompilation('empty')
+    })
+
+    assert.throws(function () {
+      testCompilation('multiple-tags')
+    })
+  })
+
   it('should compile the boilerplate', function () {
-    let js = testCompilation('boilerplate')
-    console.log(js)
+    testCompilation('boilerplate')
   })
 
   it('should compile attributes', function () {
     let js = testCompilation('attributes')
-    // it should only define `class:` once!
-    assert.equal(js.match(/"class"/).length, 1)
-    console.log(js)
+    assert.equal(js.match(/"class"/).length, 1, 'More than one class property set.')
+  })
+
+  it('should compile if statements', function () {
+    let js = testCompilation('if')
+  })
+
+  it('should compile case statements', function () {
+    let js = testCompilation('case')
   })
 })
 
