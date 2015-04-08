@@ -38,11 +38,11 @@ const mainLoop = require('main-loop')
 
 const render = require('./items.jade')
 
-const locals = {
+const initState = {
   items: []
 }
 
-const loop = mainLoop(locals, render, {
+const loop = mainLoop(initState, render, {
     create: require("virtual-dom/create-element"),
     diff: require("virtual-dom/diff"),
     patch: require("virtual-dom/patch"),
