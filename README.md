@@ -19,90 +19,59 @@ For people who like reactive templating, but:
 Create a template:
 
 ```jade
-.Item(
-  class=item.active ? 'active' : ''
-  data-id=item.id
-)
-  .Item-title= item.title
-  .Item-description= item.description
+.Items
+  each item in items
+    .Item(
+      className = item.active ? 'active' : ''
+      dataset = {
+        id: item.id
+      })
+      .Item-title= item.title
+      .Item-description= item.description
 ```
 
-`require()` your template as a function:
+`require()` your template as a function
+and use a rendering system like [main-loop](https://github.com/Raynos/main-loop):
 
 ```js
-const createElement = require('virtual-dom/create-element')
-const h = require('virtual-dom/h')
+const mainLoop = require('main-loop')
 
-const renderItem = require('./item.jade')
+const render = require('./items.jade')
 
 const locals = {
   items: []
 }
 
-// create a render function using the templates
-function render(locals) {
-  // note: this could be included in the template,
-  // which would remove the requirement of creating this function
-  return h('.Items', locals.items.map(renderItem))
-}
-
-let rootTree = render(locals)
-const rootNode = createElement(rootTree)
-document.body.appendChild(rootNode)
+const loop = mainLoop(locals, render, {
+    create: require("virtual-dom/create-element"),
+    diff: require("virtual-dom/diff"),
+    patch: require("virtual-dom/patch"),
+})
+document.body.appendChild(loop.target)
 ```
 
-Later, you can update the nodes:
+Then update whenever you'd like!
 
 ```js
-const patch = require('virtual-dom/patch')
-const diff = require('virtual-dom/diff')
-
-let updating = false
-
-locals.items.push({
-  title: 'new item',
-  description: 'new description',
-  active: true,
-})
-
-update()
-function update() {
-  if (updating) return
-  updating = true
-  requestAnimationFrame(function () {
-    let newTree = render(locals)
-    let patches = diff(rootTree, newTree)
-    rootNode = patch(rootNode, patches)
-    rootTree = newTree
-    updating = false
-  })
-}
-```
-
-You can now bind events however you want:
-
-```js
-document.addEventListener('click', function (e) {
-  let el = e.target.closest('.Items > .Item')
-  if (!el) return
-
-  e.preventDefault()
-
-  let id = el.data('id')
-  locals.items.forEach(function (item) {
-    item.active = item.id === id
-  })
-
-  update()
+loop.update({
+  items: [
+    {
+      id: 'asdf',
+      title: 'some title',
+      description: 'some description',
+      active: false,
+    }
+  ]
 })
 ```
-
 
 ## Notes
 
 - Requires a CommonJS environment for client-side `require()`s.
-- Requires you to install [virtual-dom](https://github.com/Matt-Esch/virtual-dom) on the client via `npm`.
 - All templates must return a single root element.
+- Requires you to install the following modules in your top-level app:
+  - [virtual-dom](https://github.com/Matt-Esch/virtual-dom)
+  - [escape-html](https://github.com/component/escape-html)
 
 ## API
 
@@ -115,8 +84,22 @@ Options are:
 
 - `.pretty=false` - whether to beautify the resulting JS.
   Requires you to install `js-beautify` yourself.
-- `.runtime=true` - whether to include the runtime,
-  which is just a bunch of `require()`s to `virtual-dom` files.
+
+Returns a string that looks like:
+
+```js
+function render(locals) {
+  var result_of_with = /* stuff */
+  if (result_of_with) return result_of_with.value;;
+}
+```
+
+You are expected to `eval()` the string if you want the source as a function.
+Otherwise, just create a module in the following format:
+
+```js
+const js = `module.exports = ${src}`
+```
 
 [npm-image]: https://img.shields.io/npm/v/virtual-jade.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/virtual-jade

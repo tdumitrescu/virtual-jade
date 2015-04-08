@@ -1,6 +1,9 @@
 'use strict'
 
+const toHTML = require('vdom-to-html')
+const parse5 = require('parse5-utils')
 const Parser = require('jade').Parser
+const h = require('virtual-dom/h')
 const assert = require('assert')
 const path = require('path')
 const fs = require('fs')
@@ -23,7 +26,10 @@ describe('Compiler', function () {
   })
 
   it('should compile the boilerplate', function () {
-    testCompilation('boilerplate')
+    let js = testCompilation('boilerplate')
+    let root = eval(`(function(){${js}})()`)
+    let html = toHTML(root)
+    parse5.parse(html, true)
   })
 
   it('should compile attributes', function () {
@@ -33,6 +39,15 @@ describe('Compiler', function () {
 
   it('should compile if statements', function () {
     let js = testCompilation('if')
+    assert(!~js.indexOf('undefined('))
+    let root = eval(`(function(){${js}})()`)
+    let html = toHTML(root)
+    parse5.parse(html, true)
+    assert(~html.indexOf('<span></span><span></span>'))
+    assert(!~html.indexOf('<em>'))
+    assert(~html.indexOf('a1'))
+    assert(!~html.indexOf('a2'))
+    assert(!~html.indexOf('a3'))
   })
 
   it('should compile case statements', function () {
