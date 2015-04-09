@@ -72,6 +72,10 @@ describe('Compiler', function () {
   it('should compile each w/ expressions', function () {
     let js = testCompilation('each-expression')
   })
+
+  it('should compile a while loop', function () {
+    let js = testCompilation('while')
+  })
 })
 
 function testCompilation(fixture_name) {
