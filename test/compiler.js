@@ -53,6 +53,12 @@ describe('Compiler', function () {
   it('should compile case statements', function () {
     let js = testCompilation('case')
   })
+
+  it('should compile top-level JS', function () {
+    let js = testCompilation('top-level-code')
+    assert(~js.indexOf('var a = 1\n'))
+    assert(~js.indexOf('var b = 2\n'))
+  })
 })
 
 function testCompilation(fixture_name) {
