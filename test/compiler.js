@@ -11,6 +11,10 @@ const fs = require('fs')
 const Compiler = require('../lib/compiler')
 
 describe('Compiler', function () {
+  it('should compile funtions as properties', function () {
+    let js = testCompilation('inline-function')
+  })
+
   it('should throw if there is not exactly 1 tag', function () {
     assert.throws(function () {
       testCompilation('root-if')
