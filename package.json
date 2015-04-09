@@ -10,7 +10,7 @@
     "escape-html": "^1.0.1",
     "jade": "^1.9.2",
     "lazyrequire": "^1.2.1",
-    "with": "^4.0.3"
+    "with": "^5.0.0"
   },
   "devDependencies": {
     "istanbul-harmony": "0",

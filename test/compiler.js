@@ -59,6 +59,19 @@ describe('Compiler', function () {
     assert(~js.indexOf('var a = 1\n'))
     assert(~js.indexOf('var b = 2\n'))
   })
+
+  it('should compile each', function () {
+    let js = testCompilation('each')
+  })
+
+  it('should compile each, index', function () {
+    let js = testCompilation('each-index')
+    assert(~js.indexOf('anIndex'))
+  })
+
+  it('should compile each w/ expressions', function () {
+    let js = testCompilation('each-expression')
+  })
 })
 
 function testCompilation(fixture_name) {
