@@ -34,7 +34,8 @@ describe('Compiler', function () {
 
   it('should compile attributes', function () {
     let js = testCompilation('attributes')
-    assert.equal(js.match(/"class"/).length, 1, 'More than one class property set.')
+    assert(!js.match(/\bclass\b/), '`class` found somewhere!')
+    assert.equal(js.match(/"className"/).length, 1, 'More than one class property set.')
   })
 
   it('should compile if statements', function () {

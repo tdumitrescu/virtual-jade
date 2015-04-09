@@ -24,6 +24,13 @@ describe('Render', function () {
     }, locals)
     let html = toHTML(root)
     parse5.parse(html, true)
+
+    assert(~html.indexOf('item active'))
+    assert(~html.indexOf('class="title"'))
+    assert(~html.indexOf('<h3'))
+    assert(~html.indexOf('</h3>'))
+    assert(~html.indexOf('some title'))
+    assert(~html.indexOf('some description'))
   })
 })
 

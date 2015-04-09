@@ -71,7 +71,6 @@ loop.update({
 - All templates must return a single root element.
 - Requires you to install the following modules in your top-level app:
   - [virtual-dom](https://github.com/Matt-Esch/virtual-dom)
-  - [escape-html](https://github.com/component/escape-html)
 
 ## API
 
