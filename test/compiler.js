@@ -91,6 +91,12 @@ describe('Compiler', function () {
     let js = testCompilation('mixin-args')
     assert(~js.indexOf("jade_mixins['item'](5)"))
   })
+
+  it('should compile mixins with rest arguments', function () {
+    let js = testCompilation('mixin-rest')
+    assert(~js.indexOf("function(x)"))
+    assert(~js.indexOf("jade_mixins['item'](5, 'a', 'b')"))
+  })
 })
 
 function testCompilation(fixture_name) {
