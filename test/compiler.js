@@ -81,6 +81,11 @@ describe('Compiler', function () {
   it('should compile a while loop', function () {
     let js = testCompilation('while')
   })
+
+  it('should compile mixins without arguments', function () {
+    let js = testCompilation('mixin')
+    assert(~js.indexOf("jade_mixins['item']()"))
+  })
 })
 
 function testCompilation(fixture_name) {
