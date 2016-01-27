@@ -102,6 +102,11 @@ describe('Compiler', function () {
     let js = testCompilation('mixin-block')
     assert(~js.indexOf("jade_mixins['item'].call({block: function()"))
   })
+
+  it('should compile mixins with attributes', function () {
+    let js = testCompilation('mixin-attrs')
+    assert(~js.indexOf("jade_mixins['item'].call({attributes: {"))
+  })
 })
 
 function testCompilation(fixture_name) {

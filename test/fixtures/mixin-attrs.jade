@@ -1,0 +1,5 @@
+mixin item(x)
+  .item(className=attributes.className)= x
+
+.items
+  +item(5)(className="foo")
