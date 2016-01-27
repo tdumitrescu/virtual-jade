@@ -84,18 +84,23 @@ describe('Compiler', function () {
 
   it('should compile mixins without arguments', function () {
     let js = testCompilation('mixin')
-    assert(~js.indexOf("jade_mixins['item']()"))
+    assert(~js.indexOf("jade_mixins['item'].call(this)"))
   })
 
   it('should compile mixins with arguments', function () {
     let js = testCompilation('mixin-args')
-    assert(~js.indexOf("jade_mixins['item'](5)"))
+    assert(~js.indexOf("jade_mixins['item'].call(this, 5)"))
   })
 
   it('should compile mixins with rest arguments', function () {
     let js = testCompilation('mixin-rest')
     assert(~js.indexOf("function(x)"))
-    assert(~js.indexOf("jade_mixins['item'](5, 'a', 'b')"))
+    assert(~js.indexOf("jade_mixins['item'].call(this, 5, 'a', 'b')"))
+  })
+
+  it('should compile mixins with blocks', function () {
+    let js = testCompilation('mixin-block')
+    assert(~js.indexOf("jade_mixins['item'].call({block: function()"))
   })
 })
 
