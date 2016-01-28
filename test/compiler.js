@@ -81,6 +81,32 @@ describe('Compiler', function () {
   it('should compile a while loop', function () {
     let js = testCompilation('while')
   })
+
+  it('should compile mixins without arguments', function () {
+    let js = testCompilation('mixin')
+    assert(~js.indexOf("jade_mixins['item'].call(this)"))
+  })
+
+  it('should compile mixins with arguments', function () {
+    let js = testCompilation('mixin-args')
+    assert(~js.indexOf("jade_mixins['item'].call(this, 5)"))
+  })
+
+  it('should compile mixins with rest arguments', function () {
+    let js = testCompilation('mixin-rest')
+    assert(~js.indexOf("function(x)"))
+    assert(~js.indexOf("jade_mixins['item'].call(this, 5, 'a', 'b')"))
+  })
+
+  it('should compile mixins with blocks', function () {
+    let js = testCompilation('mixin-block')
+    assert(~js.indexOf("jade_mixins['item'].call({block: function()"))
+  })
+
+  it('should compile mixins with attributes', function () {
+    let js = testCompilation('mixin-attrs')
+    assert(~js.indexOf("jade_mixins['item'].call({attributes: {"))
+  })
 })
 
 function testCompilation(fixture_name) {

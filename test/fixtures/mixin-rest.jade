@@ -1,0 +1,8 @@
+mixin item(x, ...myList)
+  .item
+    each el in myList
+      .more-tree= el
+
+.items
+  +item(5, 'a', 'b')
+  +item(6, 'c')

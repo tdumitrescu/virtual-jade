@@ -1,5 +1,5 @@
 node_js:
-- "iojs"
+  - "4.2"
 language: node_js
 sudo: false
 script: "npm run test-ci"

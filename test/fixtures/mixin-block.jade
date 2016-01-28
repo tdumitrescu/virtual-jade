@@ -1,0 +1,11 @@
+mixin item(x)
+  .item
+    .more-tree= x
+    block
+
+.items
+  +item(5)
+    .foo
+  +item(6)
+    .bar
+    .baz
