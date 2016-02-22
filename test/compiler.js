@@ -45,6 +45,7 @@ describe('Compiler', function () {
   it('should handle basic string interpolation', function () {
     let js = testCompilation('interpolation')
     assert(~js.indexOf('+ (x + 5) +'))
+    assert(~js.indexOf('+ (x - 2) +'))
   })
 
   it('should compile if statements', function () {
