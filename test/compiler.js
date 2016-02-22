@@ -42,6 +42,11 @@ describe('Compiler', function () {
     assert.equal(js.match(/"className"/).length, 1, 'More than one class property set.')
   })
 
+  it('should handle basic string interpolation', function () {
+    let js = testCompilation('interpolation')
+    assert(~js.indexOf('+ (x + 5) +'))
+  })
+
   it('should compile if statements', function () {
     let js = testCompilation('if')
     assert(!~js.indexOf('undefined('))
