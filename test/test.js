@@ -32,6 +32,13 @@ describe('Render', function () {
     assert(~html.indexOf('some title'))
     assert(~html.indexOf('some description'))
   })
+
+  it('should beautify when option is set', function () {
+    const fn = render(fixture('item'), {pretty: true})
+    const lines = fn.split('\n')
+    assert(lines.length > 15)
+    assert(lines[lines.length - 1].trim() === '}')
+  })
 })
 
 function fixture(name) {
