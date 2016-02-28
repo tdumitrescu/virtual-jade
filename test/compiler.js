@@ -71,6 +71,11 @@ describe('Compiler', function () {
     assert(~js.indexOf('var b = 2\n'))
   })
 
+  it('should compile JS in blocks', function () {
+    let js = testCompilation('code')
+    assert(~js.indexOf("foo = ['bar']"))
+  })
+
   it('should compile each', function () {
     let js = testCompilation('each')
   })
