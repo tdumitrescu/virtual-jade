@@ -39,7 +39,7 @@ describe('Compiler', function () {
   it('should compile attributes', function () {
     let js = testCompilation('attributes')
     assert(!js.match(/\bclass\b/), '`class` found somewhere!')
-    assert.equal(js.match(/"className"/).length, 1, 'More than one class property set.')
+    assert.equal(js.match(/"className"/g).length, 2, 'Incorrect number of class properties set.')
   })
 
   it('should handle basic string interpolation', function () {
