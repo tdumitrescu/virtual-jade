@@ -47,6 +47,13 @@ describe('Render', function () {
     assert(~html.indexOf('<div class="example bar">'))
   })
 
+  it('should use locals when evaluating code blocks', function () {
+    let html = renderFixture('code', {x: 0})
+    assert(~html.indexOf('<div class="baz">'))
+    html = renderFixture('code', {x: -1})
+    assert(!~html.indexOf('<div class="baz">'))
+  })
+
   it('should run while loops correctly', function () {
     const html = renderFixture('while')
     assert(html.match(/<div class=\"item\">/g).length === 5)
