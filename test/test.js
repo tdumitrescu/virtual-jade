@@ -8,22 +8,24 @@ const fs = require('fs')
 
 const render = require('..')
 
+function renderFixture(fixtureName, locals) {
+  const fn = eval(`(${render(fixture(fixtureName))})`)
+  const root = fn.call({class: 'asdf'}, locals)
+  const html = toHTML(root)
+  parse5.parse(html, true)
+  return html
+}
+
 describe('Render', function () {
   it('should render a template', function () {
-    let fn = eval(`(${render(fixture('item'))})`)
-    let locals = {
+    const html = renderFixture('item', {
       item: {
         id: '1234',
         title: 'some title',
         description: 'some description',
         active: true,
       }
-    }
-    let root = fn.call({
-      class: 'asdf',
-    }, locals)
-    let html = toHTML(root)
-    parse5.parse(html, true)
+    })
 
     assert(~html.indexOf('item active'))
     assert(~html.indexOf('class="title"'))
@@ -38,6 +40,16 @@ describe('Render', function () {
     const lines = fn.split('\n')
     assert(lines.length > 15)
     assert(lines[lines.length - 1].trim() === '}')
+  })
+
+  it('should run code blocks correctly', function () {
+    const html = renderFixture('code')
+    assert(~html.indexOf('<div class="example bar">'))
+  })
+
+  it('should run while loops correctly', function () {
+    const html = renderFixture('while')
+    assert(html.match(/<div class=\"item\">/g).length === 5)
   })
 })
 
