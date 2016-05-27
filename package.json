@@ -1,6 +1,6 @@
 {
   "name": "virtual-jade",
-  "description": "",
+  "description": "Compile Jade templates to virtual-dom functions",
   "version": "0.2.2",
   "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
   "license": "MIT",
