@@ -104,7 +104,7 @@ const js = `module.exports = ${src}`
 [npm-url]: https://npmjs.org/package/virtual-jade
 [github-tag]: http://img.shields.io/github/tag/jonathanong/virtual-jade.svg?style=flat-square
 [github-url]: https://github.com/jonathanong/virtual-jade/tags
-[travis-image]: https://img.shields.io/travis/jonathanong/virtual-jade.svg?style=flat-square
+[travis-image]: https://img.shields.io/travis/jonathanong/virtual-jade/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/jonathanong/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/jonathanong/virtual-jade.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/jonathanong/virtual-jade
