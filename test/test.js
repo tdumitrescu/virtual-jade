@@ -59,6 +59,21 @@ describe('Render', function () {
     assert(html.match(/<div class=\"item\">/g).length === 5)
   })
 
+  describe('attributes', function () {
+    it('should add arbitrary attributes', function () {
+      const html = renderFixture('attributes')
+      assert(html.includes('required'))
+      assert(!html.includes('something'))
+    })
+
+    it('should add class attributes in array notation', function () {
+      let html = renderFixture('attributes')
+      assert(html.includes('1 2'))
+      html = renderFixture('attributes', {variable: 'meow'})
+      assert(html.includes('1 2 meow'))
+    })
+  })
+
   describe('case statements', function () {
     it('should not execute any cases when none match', function () {
       const html = renderFixture('case')
