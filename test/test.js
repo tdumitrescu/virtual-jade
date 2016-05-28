@@ -72,6 +72,15 @@ describe('Render', function () {
       html = renderFixture('attributes', {variable: 'meow'})
       assert(html.includes('1 2 meow'))
     })
+
+    it('should add class attributes in object notation', function () {
+      let html = renderFixture('attributes')
+      assert(html.includes('obj1'))
+      assert(!html.includes('obj2'))
+      html = renderFixture('attributes', {variable: 'doge'})
+      assert(html.includes('obj1'))
+      assert(html.includes('obj2'))
+    })
   })
 
   describe('case statements', function () {
