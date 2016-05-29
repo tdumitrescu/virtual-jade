@@ -1,10 +1,9 @@
 # virtual-jade
 
-[![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
-Server-side function to compile your [jade](https://github.com/jadejs/jade) templates into [virtual-dom](https://github.com/Matt-Esch/virtual-dom) functions.
+Compile your [jade](https://github.com/jadejs/jade) templates into [virtual-dom](https://github.com/Matt-Esch/virtual-dom) functions.
 For people who like reactive templating, but:
 
 - Don't like writing HTML or JSX
@@ -95,8 +94,6 @@ Otherwise, just create a module in the following format:
 const js = `module.exports = ${src}`
 ```
 
-[npm-image]: https://img.shields.io/npm/v/virtual-jade.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/virtual-jade
 [travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/tdumitrescu/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/jonathanong/virtual-jade.svg?style=flat-square
