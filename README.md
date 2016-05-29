@@ -1,13 +1,8 @@
-
 # virtual-jade
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
-[![Dependency Status][david-image]][david-url]
-[![License][license-image]][license-url]
-[![Downloads][downloads-image]][downloads-url]
-[![Gittip][gittip-image]][gittip-url]
 
 Server-side function to compile your [jade](https://github.com/jadejs/jade) templates into [virtual-dom](https://github.com/Matt-Esch/virtual-dom) functions.
 For people who like reactive templating, but:
@@ -102,17 +97,7 @@ const js = `module.exports = ${src}`
 
 [npm-image]: https://img.shields.io/npm/v/virtual-jade.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/virtual-jade
-[github-tag]: http://img.shields.io/github/tag/jonathanong/virtual-jade.svg?style=flat-square
-[github-url]: https://github.com/jonathanong/virtual-jade/tags
 [travis-image]: https://img.shields.io/travis/jonathanong/virtual-jade/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/jonathanong/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/jonathanong/virtual-jade.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/jonathanong/virtual-jade
-[david-image]: http://img.shields.io/david/jonathanong/virtual-jade.svg?style=flat-square
-[david-url]: https://david-dm.org/jonathanong/virtual-jade
-[license-image]: http://img.shields.io/npm/l/virtual-jade.svg?style=flat-square
-[license-url]: LICENSE
-[downloads-image]: http://img.shields.io/npm/dm/virtual-jade.svg?style=flat-square
-[downloads-url]: https://npmjs.org/package/virtual-jade
-[gittip-image]: https://img.shields.io/gratipay/jonathanong.svg?style=flat-square
-[gittip-url]: https://gratipay.com/jonathanong/
