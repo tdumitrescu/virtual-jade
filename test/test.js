@@ -77,9 +77,23 @@ describe('Render', function () {
       let html = renderFixture('attributes')
       assert(html.includes('obj1'))
       assert(!html.includes('obj2'))
+
       html = renderFixture('attributes', {variable: 'doge'})
       assert(html.includes('obj1'))
       assert(html.includes('obj2'))
+    })
+
+    it('should combine class attributes in different notations gracefully', function () {
+      let html = renderFixture('attributes')
+      assert(html.includes('mixed'))
+      assert(html.includes('mixedArray1'))
+      assert(!html.includes('mixedObj1'))
+
+      html = renderFixture('attributes', {var2: 'doge'})
+      assert(html.includes('mixed'))
+      assert(html.includes('mixedArray1'))
+      assert(html.includes('mixedObj1'))
+      assert(html.includes('doge'))
     })
   })
 
