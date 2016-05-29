@@ -97,7 +97,7 @@ const js = `module.exports = ${src}`
 
 [npm-image]: https://img.shields.io/npm/v/virtual-jade.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/virtual-jade
-[travis-image]: https://img.shields.io/travis/jonathanong/virtual-jade/master.svg?style=flat-square
-[travis-url]: https://travis-ci.org/jonathanong/virtual-jade
+[travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
+[travis-url]: https://travis-ci.org/tdumitrescu/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/jonathanong/virtual-jade.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/jonathanong/virtual-jade
