@@ -135,6 +135,11 @@ describe('Render', function () {
       html = renderFixture('code', {x: -1})
       assert(!~html.indexOf('<div class="baz">'))
     })
+
+    it('should output inline buffered code', function () {
+      const html = renderFixture('code')
+      assert(html.includes('<div class="inline-script"><div class="raw-inline">within another div'))
+    })
   })
 })
 
