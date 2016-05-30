@@ -13,15 +13,15 @@ For people who like reactive templating, but:
 Create a template:
 
 ```jade
-.Items
+.items
   each item in items
-    .Item(
+    .item(
       className = item.active ? 'active' : ''
       dataset = {
         id: item.id
       })
-      .Item-title= item.title
-      .Item-description= item.description
+      .item-title= item.title
+      .item-description= item.description
 ```
 
 `require()` your template as a function
