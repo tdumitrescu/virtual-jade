@@ -140,6 +140,11 @@ describe('Render', function () {
       const html = renderFixture('code')
       assert(html.includes('<div class="inline-script"><div class="raw-inline">within another div'))
     })
+
+    it('should output standalone buffered code', function () {
+      const html = renderFixture('code')
+      assert(html.includes('<div class="raw-buffered">raw so raw'))
+    })
   })
 })
 
