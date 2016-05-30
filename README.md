@@ -61,7 +61,8 @@ loop.update({
 
 ## Notes
 
-- Requires a CommonJS environment for client-side `require()`s.
+- For easy configuration with Webpack, use [virtual-jade-loader](https://github.com/tdumitrescu/virtual-jade-loader).
+- Can be used with any CommonJS environment with client-side `require()`s.
 - All templates must return a single root element.
 - Requires you to install the following modules in your top-level app:
   - [virtual-dom](https://github.com/Matt-Esch/virtual-dom)
