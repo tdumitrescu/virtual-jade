@@ -145,6 +145,11 @@ describe('Render', function () {
       const html = renderFixture('code')
       assert(html.includes('<div class="raw-buffered">raw so raw'))
     })
+
+    it('should not output unbuffered code', function () {
+      const html = renderFixture('code')
+      assert(!html.includes('should not be output'))
+    })
   })
 })
 
