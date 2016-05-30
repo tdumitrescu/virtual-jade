@@ -124,30 +124,33 @@ describe('Render', function () {
   })
 
   describe('code blocks', function() {
+    let html;
+
+    beforeEach(function () {
+      html = renderFixture('code')
+    })
+
     it('should run unbuffered code correctly', function () {
-      const html = renderFixture('code')
       assert(~html.indexOf('<div class="example bar">'))
     })
 
     it('should use locals when evaluating', function () {
-      let html = renderFixture('code', {x: 0})
+      html = renderFixture('code', {x: 0})
       assert(~html.indexOf('<div class="baz">'))
+
       html = renderFixture('code', {x: -1})
       assert(!~html.indexOf('<div class="baz">'))
     })
 
     it('should output inline buffered code', function () {
-      const html = renderFixture('code')
       assert(html.includes('<div class="inline-script"><div class="raw-inline">within another div'))
     })
 
     it('should output standalone buffered code', function () {
-      const html = renderFixture('code')
       assert(html.includes('<div class="raw-buffered">raw so raw'))
     })
 
     it('should not output unbuffered code', function () {
-      const html = renderFixture('code')
       assert(!html.includes('should not be output'))
     })
   })
