@@ -5,3 +5,6 @@ div
   - var baz = x + 1
   if baz
     .baz
+
+  .inline-script= h('.raw-inline', 'within another div')
+  = h('.raw-buffered', 'raw so raw')
