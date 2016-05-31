@@ -5,4 +5,9 @@ div#id.class1(
 )
   div(class=[foo, bar] class=baz)
   div(class={obj1: true, obj2: variable === 'doge'})
-  .mixed(class={mixedObj1: !!var2} class=['mixedArray1', var2])
+  .mixed(
+    class={
+      mixedObj1: !!var2
+    }
+    class=['mixedArray1', var2]
+  )
