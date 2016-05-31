@@ -16,10 +16,9 @@ Create a template:
 .items
   each item in items
     .item(
-      className = item.active ? 'active' : ''
-      dataset = {
-        id: item.id
-      })
+      className={active: item.active}
+      dataset={id: item.id}
+    )
       .item-title= item.title
       .item-description= item.description
 ```
