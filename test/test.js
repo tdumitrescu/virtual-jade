@@ -50,6 +50,13 @@ describe('Render', function () {
     assert(html.match(/<div class=\"item\">/g).length === 5)
   })
 
+  it('should insert included files', function () {
+    const html = renderFixture('include')
+    assert(html.includes('<p>Hello</p>'))
+    assert(html.includes('<div class="included-content">llamas!!!</div>'))
+    assert(html.includes('<p>world</p>'))
+  })
+
   describe('attributes', function () {
     it('should add arbitrary attributes', function () {
       const html = renderFixture('attributes')
