@@ -20,6 +20,13 @@ function renderFixture(fixtureName, locals) {
 }
 
 describe('Render', function () {
+  it('should render a template without options', function () {
+    const compiled = render(fixture('attributes'))
+    assert(compiled.includes('class1'))
+    assert(compiled.includes('foo'))
+    assert(compiled.includes('doge'))
+  })
+
   it('should render a template', function () {
     const html = renderFixture('item', {
       item: {
