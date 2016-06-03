@@ -68,14 +68,16 @@ loop.update({
 
 ## API
 
-### str = render(src, options)
+### fnStr = render(str, options)
 
-`src` is the jade source.
-`str` is output JS that you should include as a CommonJS module.
+`str` is the jade source as a string.
+`fnStr` is output JS that you should include as a CommonJS module.
 
 Options are:
 
-- `.pretty=false` - whether to beautify the resulting JS.
+- `filename`: path and name of Jade source file for `str`.
+  Required if you use `include` or `extends` in templates.
+- `pretty=false`: whether to beautify the resulting JS.
   Requires you to install `js-beautify` yourself.
 
 Returns a string that looks like:
@@ -91,7 +93,7 @@ You are expected to `eval()` the string if you want the source as a function.
 Otherwise, just create a module in the following format:
 
 ```js
-const js = `module.exports = ${src}`
+const js = `module.exports = ${fnStr}`
 ```
 
 [travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
