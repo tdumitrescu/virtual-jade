@@ -9,7 +9,10 @@ const fs = require('fs')
 const render = require('..')
 
 function renderFixture(fixtureName, locals) {
-  const fn = eval(`(${render(fixture(fixtureName))})`)
+  const compiled = render(fixture(fixtureName), {
+    filename: path.join(__dirname, 'fixtures', fixtureName),
+  })
+  const fn = eval(`(${compiled})`)
   const root = fn.call({class: 'asdf'}, locals)
   const html = toHTML(root)
   parse5.parse(html, true)
