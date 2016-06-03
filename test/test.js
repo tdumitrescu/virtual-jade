@@ -57,6 +57,13 @@ describe('Render', function () {
     assert(html.includes('<p>world</p>'))
   })
 
+  it('should insert extended files', function () {
+    const html = renderFixture('extends')
+    assert(html.includes('<div class="foo">'))
+    assert(html.includes('capybara'))
+    assert(html.includes('default content'))
+  })
+
   describe('attributes', function () {
     it('should add arbitrary attributes', function () {
       const html = renderFixture('attributes')
