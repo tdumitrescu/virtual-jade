@@ -2,7 +2,7 @@
 
 const assert = require('assert')
 const fs = require('fs')
-const jsdom = require('jsdom').jsdom
+const jsdom = require('mocha-jsdom')
 const parse5 = require('parse5-utils')
 const path = require('path')
 const toHTML = require('vdom-to-html')
@@ -21,6 +21,8 @@ function renderFixture(fixtureName, locals) {
 }
 
 describe('Render', function () {
+  jsdom();
+
   it('should render a template without options', function () {
     const compiled = render(fixture('attributes'))
     assert(compiled.includes('class1'))
@@ -66,7 +68,6 @@ describe('Render', function () {
   })
 
   it('should insert included literal (non-jade) files', function () {
-    global.document = jsdom()
     const html = renderFixture('literal-import')
     const singleRootImport = '<div class="test">test</div>'
     const multiRootImport = '<div>child 1</div><div>child 2</div>'
