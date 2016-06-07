@@ -1,10 +1,11 @@
 'use strict'
 
-const toHTML = require('vdom-to-html')
-const parse5 = require('parse5-utils')
 const assert = require('assert')
-const path = require('path')
 const fs = require('fs')
+const jsdom = require('jsdom').jsdom
+const parse5 = require('parse5-utils')
+const path = require('path')
+const toHTML = require('vdom-to-html')
 
 const render = require('..')
 
@@ -62,6 +63,18 @@ describe('Render', function () {
     assert(html.includes('<p>Hello</p>'))
     assert(html.includes('<div class="included-content">llamas!!!</div>'))
     assert(html.includes('<p>world</p>'))
+  })
+
+  it('should insert included literal (non-jade) files', function () {
+    global.document = jsdom()
+    const html = renderFixture('literal-import')
+    const singleRootImport = '<div class="test">test</div>'
+    const multiRootImport = '<div>child 1</div><div>child 2</div>'
+    const htmlEntities = function(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    }
+    const expectedContents = '<div class="raw"><div class="single-root"><text>' + htmlEntities(singleRootImport) + '</text></div><div class="multi-root"><text>' + htmlEntities('<div>' + multiRootImport + '</div>') + '</text></div></div>'
+    assert(html === expectedContents)
   })
 
   it('should insert extended files', function () {
