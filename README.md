@@ -61,6 +61,7 @@ loop.update({
 ## Notes
 
 - For easy configuration with Webpack, use [virtual-jade-loader](https://github.com/tdumitrescu/virtual-jade-loader).
+- To translate with Babel, use [babel-plugin-virtual-jade](https://github.com/jbwyme/babel-plugin-virtual-jade).
 - Can be used with any CommonJS environment with client-side `require()`s.
 - All templates must return a single root element.
 - Requires you to install the following modules in your top-level app:
