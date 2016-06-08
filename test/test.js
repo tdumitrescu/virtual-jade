@@ -75,8 +75,11 @@ describe('Render', function () {
       return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
     }
     const expectedContents =
-      '<div class="raw"><div class="single-root"><text>' + htmlEntities(singleRootImport) +
-      '</text></div><div class="multi-root"><text>' + htmlEntities('<div>' + multiRootImport + '</div>') + '</text></div></div>'
+      '<div class="raw"><div class="single-root">' +
+      '<text>' + htmlEntities(singleRootImport) + '</text>' +
+      '</div><div class="multi-root">' +
+      '<text>' + htmlEntities('<div>' + multiRootImport + '</div>') + '</text>' +
+      '</div></div>'
     assert(html === expectedContents)
   })
 
