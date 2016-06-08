@@ -4,7 +4,8 @@
   "version": "0.3.1",
   "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
   "contributors": [
-    "Ted Dumitrescu <webdev@cmme.org>"
+    "Ted Dumitrescu <webdev@cmme.org>",
+    "Josh Wymer <wymetyme@gmail.com>"
   ],
   "license": "MIT",
   "repository": "tdumitrescu/virtual-jade",
