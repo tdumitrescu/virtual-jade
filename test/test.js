@@ -129,6 +129,11 @@ describe('Render', function () {
       assert(html.includes('mixedObj1'))
       assert(html.includes('doge'))
     })
+
+    it('should render data attributes',function () {
+      const html = renderFixture('attributes')
+      assert(html.includes('data-foo-id="42"'))
+    })
   })
 
   describe('case statements', function () {
