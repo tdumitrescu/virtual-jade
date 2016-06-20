@@ -130,9 +130,15 @@ describe('Render', function () {
       assert(html.includes('doge'))
     })
 
-    it('should render data attributes',function () {
+    it('should render data attributes', function () {
       const html = renderFixture('attributes')
       assert(html.includes('data-foo-id="42"'))
+    })
+
+    it('should convert attributes to correct property names', function () {
+      const html = renderFixture('attributes')
+      assert(html.includes('autocomplete="on"'))
+      assert(html.includes('for="special-attr"'))
     })
   })
 
