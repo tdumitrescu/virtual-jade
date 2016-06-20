@@ -17,7 +17,7 @@ Create a template:
   each item in items
     .item(
       class={active: item.active}
-      dataset={id: item.id}
+      data-id=item.id
     )
       .item-title= item.title
       .item-description= item.description
