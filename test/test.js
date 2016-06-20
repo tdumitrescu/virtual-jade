@@ -138,6 +138,7 @@ describe('Render', function () {
     it('should convert attributes to correct property names', function () {
       const html = renderFixture('attributes')
       assert(html.includes('autocomplete="on"'))
+      assert(html.includes('tabindex="5"'))
       assert(html.includes('for="special-attr"'))
     })
   })
