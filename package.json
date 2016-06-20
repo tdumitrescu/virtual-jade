@@ -27,7 +27,7 @@
     "mocha-jsdom": "^1.1.0",
     "parse5-utils": "^1.3.1",
     "standardberry": "*",
-    "vdom-to-html": "tdumitrescu/vdom-to-html#dataset",
+    "vdom-to-html": "^2.3.0",
     "virtual-dom": "^2.0.1"
   },
   "scripts": {
