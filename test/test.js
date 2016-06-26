@@ -67,6 +67,12 @@ describe('Render', function () {
     assert(html.includes('<p>world</p>'))
   })
 
+  it('should make included mixins available', function () {
+    const html = renderFixture('include-with-mixin')
+    assert(html.includes('<div class="foo">'))
+    assert(html.includes('<div class="hello">insert me</div>'))
+  })
+
   it('should insert included literal (non-jade) files', function () {
     const html = renderFixture('literal-import')
     const singleRootImport = '<div class="test">test</div>'
