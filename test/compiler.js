@@ -11,7 +11,7 @@ const fs = require('fs')
 const Compiler = require('../lib/compiler')
 
 describe('Compiler', function () {
-  it('should compile funtions as properties', function () {
+  it('should compile functions as properties', function () {
     let js = testCompilation('inline-function')
   })
 
