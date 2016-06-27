@@ -60,6 +60,13 @@ describe('Render', function () {
     assert(html.match(/<div class=\"item\">/g).length === 5)
   })
 
+  it('should insert dynamic tag names', function () {
+    let html = renderFixture('dynamic-tag', {myTag: 'input'})
+    assert(html.includes('<input class="llamas">'))
+    html = renderFixture('dynamic-tag', {myTag: 'textarea'})
+    assert(html.includes('<textarea class="llamas">'))
+  })
+
   describe('multiple files', function () {
     it('should insert included files', function () {
       const html = renderFixture('include')
