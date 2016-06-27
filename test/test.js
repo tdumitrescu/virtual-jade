@@ -60,43 +60,45 @@ describe('Render', function () {
     assert(html.match(/<div class=\"item\">/g).length === 5)
   })
 
-  it('should insert included files', function () {
-    const html = renderFixture('include')
-    assert(html.includes('<p>Hello</p>'))
-    assert(html.includes('<div class="included-content">llamas!!!</div>'))
-    assert(html.includes('<p>world</p>'))
-  })
+  describe('multiple files', function () {
+    it('should insert included files', function () {
+      const html = renderFixture('include')
+      assert(html.includes('<p>Hello</p>'))
+      assert(html.includes('<div class="included-content">llamas!!!</div>'))
+      assert(html.includes('<p>world</p>'))
+    })
 
-  it('should make included mixins available', function () {
-    const html = renderFixture('include-with-mixin')
-    assert(html.includes('<div class="foo">'))
-    assert(html.includes('<div class="hello">insert me</div>'))
-  })
+    it('should make included mixins available', function () {
+      const html = renderFixture('include-with-mixin')
+      assert(html.includes('<div class="foo">'))
+      assert(html.includes('<div class="hello">insert me</div>'))
+    })
 
-  it('should insert included literal (non-jade) files', function () {
-    const html = renderFixture('literal-import')
-    const singleRootImport = '<div class="test">test</div>'
-    const multiRootImport = '<div>child 1</div><div>child 2</div>'
-    const htmlEntities = function(str) {
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
-    }
-    const expectedContents =
-      '<div class="raw">' +
-        '<div class="single-root">' +
-          '<text>' + htmlEntities(singleRootImport) + '</text>' +
-        '</div>' +
-        '<div class="multi-root">' +
-          '<text>' + htmlEntities('<div>' + multiRootImport + '</div>') + '</text>' +
-        '</div>' +
-      '</div>'
-    assert(html === expectedContents)
-  })
+    it('should insert included literal (non-jade) files', function () {
+      const html = renderFixture('literal-import')
+      const singleRootImport = '<div class="test">test</div>'
+      const multiRootImport = '<div>child 1</div><div>child 2</div>'
+      const htmlEntities = function(str) {
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+      }
+      const expectedContents =
+        '<div class="raw">' +
+          '<div class="single-root">' +
+            '<text>' + htmlEntities(singleRootImport) + '</text>' +
+          '</div>' +
+          '<div class="multi-root">' +
+            '<text>' + htmlEntities('<div>' + multiRootImport + '</div>') + '</text>' +
+          '</div>' +
+        '</div>'
+      assert(html === expectedContents)
+    })
 
-  it('should insert extended files', function () {
-    const html = renderFixture('extends')
-    assert(html.includes('<div class="foo">'))
-    assert(html.includes('capybara'))
-    assert(html.includes('default content'))
+    it('should insert extended files', function () {
+      const html = renderFixture('extends')
+      assert(html.includes('<div class="foo">'))
+      assert(html.includes('capybara'))
+      assert(html.includes('default content'))
+    })
   })
 
   describe('attributes', function () {
