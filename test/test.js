@@ -11,7 +11,7 @@ const render = require('..')
 
 function renderFixture(fixtureName, locals) {
   const compiled = render(fixture(fixtureName), {
-    filename: path.join(__dirname, 'fixtures', fixtureName),
+    filename: fixtureFilename(fixtureName),
   })
   const fn = eval(`(${compiled})`)
   const root = fn.call({class: 'asdf'}, locals)
