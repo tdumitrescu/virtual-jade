@@ -42,6 +42,18 @@ describe('Compiler', function () {
     assert.equal(js.match(/"className"/g).length, 4, 'Incorrect number of class properties set.')
   })
 
+  it('should compile data attributes to dataset', function () {
+    let js = testCompilation('attributes')
+    assert(!js.match(/\bdata-foo\b/), '`data-foo` found somewhere!')
+    assert(js.match(/\bdataset\b/), '`dataset` not found!')
+  })
+
+  it('should optionally not compile data attributes to dataset', function () {
+    let js = testCompilation('attributes', {marshalDataset: false})
+    assert(!js.match(/\bdataset\b/), '`dataset` found somewhere!')
+    assert(js.match(/\bdata-foo\b/), '`data-foo` not found!')
+  })
+
   it('should handle basic string interpolation', function () {
     let js = testCompilation('interpolation')
     assert(~js.indexOf('+ (x + 5) +'))
@@ -120,12 +132,12 @@ describe('Compiler', function () {
   })
 })
 
-function testCompilation(fixture_name) {
+function testCompilation(fixture_name, options) {
+  if (!options) options = {}
+  options.pretty = true
   let parser = new Parser(fixture(fixture_name))
   let tokens = parser.parse()
-  let compiler = new Compiler(tokens, {
-    pretty: true
-  })
+  let compiler = new Compiler(tokens, options)
   let js = compiler.compile()
   // make sure it's syntactically valid
   new Function(js)
