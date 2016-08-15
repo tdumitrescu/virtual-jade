@@ -78,6 +78,10 @@ Options are:
 
 - `filename`: path and name of Jade source file for `str`.
   Required if you use `include` or `extends` in templates.
+- `marshalDataset=true`: whether to convert `data-` attributes
+  to `dataset` members. Set to false to treat as props with the same
+  name as the attributes (if your target Virtual DOM renderer does
+  not support the `dataset` API).
 - `pretty=false`: whether to beautify the resulting JS.
   Requires you to install `js-beautify` yourself.
 
