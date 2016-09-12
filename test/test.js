@@ -188,8 +188,9 @@ describe('Render', function () {
     })
 
     it('should render data attributes', function () {
-      const html = renderFixture('attributes')
+      const html = renderFixture('attributes', {variable: 'capybara'})
       assert(html.includes('data-foo-id="42"'))
+      assert(html.includes('data-var="capybara"'))
     })
 
     it('should convert attributes to correct property names', function () {
