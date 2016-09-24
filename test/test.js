@@ -10,6 +10,15 @@ const snabbdomToHTML = require('snabbdom-to-html')
 
 const render = require('..')
 
+
+function fixtureFilename(name) {
+  return path.resolve(__dirname, 'fixtures/' + name + '.jade')
+}
+
+function fixture(name) {
+  return fs.readFileSync(fixtureFilename(name), 'utf8')
+}
+
 function renderFixture(fixtureName, locals, options) {
   options = Object.assign({}, options, {
     filename: fixtureFilename(fixtureName),
@@ -283,12 +292,3 @@ describe('Render', function () {
     })
   })
 })
-
-
-function fixtureFilename(name) {
-  return path.resolve(__dirname, 'fixtures/' + name + '.jade')
-}
-
-function fixture(name) {
-  return fs.readFileSync(fixtureFilename(name), 'utf8')
-}
