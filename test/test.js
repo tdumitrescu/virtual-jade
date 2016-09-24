@@ -5,20 +5,32 @@ const fs = require('fs')
 const jsdom = require('mocha-jsdom')
 const parse5 = require('parse5-utils')
 const path = require('path')
-const toHTML = require('vdom-to-html')
+const vdomToHTML = require('vdom-to-html')
+const snabbdomToHTML = require('snabbdom-to-html')
 
 const render = require('..')
 
-function renderFixture(fixtureName, locals) {
-  const compiled = render(fixture(fixtureName), {
+function renderFixture(fixtureName, locals, options) {
+  options = Object.assign({}, options, {
     filename: fixtureFilename(fixtureName),
   })
+
+  const compiled = render(fixture(fixtureName), options)
   const fn = eval(`(${compiled})`)
   const root = fn.call({class: 'asdf'}, locals)
+  const toHTML = options.vdom === 'snabbdom' ? snabbdomToHTML : vdomToHTML;
   const html = toHTML(root)
   parse5.parse(html, true)
   return html
 }
+
+describe('(TMP) Snabbdom rendering', function () {
+  it('renders a simple template same as virtual-dom', function () {
+    const virtualDomHTML = renderFixture('simple')
+    const snabbDomHTML = renderFixture('simple', {}, {vdom: 'snabbdom'})
+    assert(snabbDomHTML === virtualDomHTML)
+  })
+})
 
 describe('Render', function () {
   jsdom();
