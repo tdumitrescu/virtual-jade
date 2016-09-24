@@ -39,6 +39,12 @@ describe('(TMP) Snabbdom rendering', function () {
     const snabbDomHTML = renderFixture('simple', {}, {vdom: 'snabbdom'})
     assert(snabbDomHTML === virtualDomHTML)
   })
+
+  it('translates basic class notation', function () {
+    const html = renderFixture('class', {}, {vdom: 'snabbdom'})
+    assert(html.includes('div class="foo"'))
+    assert(html.includes('div class="baz llamas"'))
+  })
 })
 
 describe('Render', function () {
