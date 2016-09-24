@@ -31,12 +31,105 @@ function fixtureToHTML(fixtureName, locals, options) {
   return html
 }
 
-for (let vdom of ['virtual-dom', 'snabbdom']) {
+// run rendering tests against each supported Virtual DOM library
+
+const VDOM_LIBS = [
+  'virtual-dom',
+  'snabbdom',
+]
+
+for (let vdom of VDOM_LIBS) {
   const renderFixture = function(fixtureName, locals) {
     return fixtureToHTML(fixtureName, locals, {vdom})
   }
 
   describe(`rendering with ${vdom}`, function () {
+    it('should throw a parser error with filename and line number when rendering a broken template', function () {
+      const file = 'break-parser'
+      const filename = fixtureFilename(file)
+      const compile = function () {
+        render(fixture(file), {filename})
+      }
+      let threw = false
+
+      try {
+        compile()
+      } catch (err) {
+        threw = true
+        const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
+        assert(err.path == filename, 'err.path should be the full path to the jade file')
+        assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
+        assert(err.message.match(/Unexpected identifier/), 'the error message should contain the error type')
+      } finally {
+        assert(threw, 'an error should be thrown')
+      }
+    })
+
+    it('should throw a compiler error with filename and line number when rendering a broken template', function () {
+      const file = 'break-compiler'
+      const filename = fixtureFilename(file)
+      const compile = function () {
+        render(fixture(file), {filename})
+      }
+      let threw = false
+
+      try {
+        compile()
+      } catch (err) {
+        threw = true
+        const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
+        assert(err.path == filename, 'err.path (' + err.path + ') should be the full path to the jade file')
+        assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
+        assert(err.message.match(/You can only have one top-level tag!/), 'the error message should contain the error type')
+      } finally {
+        assert(threw, 'an error should be thrown')
+      }
+    })
+
+    it('should render a template without options', function () {
+      const compiled = render(fixture('attributes'))
+      assert(compiled.includes('class1'))
+      assert(compiled.includes('foo'))
+      assert(compiled.includes('doge'))
+    })
+
+    it('should render a template', function () {
+      const html = renderFixture('item', {
+        item: {
+          id: '1234',
+          title: 'some title',
+          description: 'some description',
+          active: true,
+        }
+      })
+
+      assert(~html.indexOf('item active'))
+      assert(~html.indexOf('class="title"'))
+      assert(~html.indexOf('<h3'))
+      assert(~html.indexOf('</h3>'))
+      assert(~html.indexOf('some title'))
+      assert(~html.indexOf('some description'))
+    })
+
+    it('should beautify when option is set', function () {
+      const fn = render(fixture('item'), {pretty: true})
+      const lines = fn.split('\n')
+      assert(lines.length > 15)
+      assert(lines[lines.length - 1].trim() === '}')
+    })
+
+    it('should run while loops correctly', function () {
+      const html = renderFixture('while')
+      assert(html.match(/<div class=\"item\">/g).length === 5)
+    })
+
+    it('should insert dynamic tag names', function () {
+      let html = renderFixture('dynamic-tag', {myTag: 'input'})
+      assert(html.includes('<input class="llamas">'))
+      html = renderFixture('dynamic-tag', {myTag: 'textarea'})
+      assert(html.includes('<textarea class="llamas">'))
+    })
+
     it('renders a simple template', function () {
       const html = renderFixture('simple')
       assert(html === '<div>This is text</div>')
@@ -52,92 +145,6 @@ for (let vdom of ['virtual-dom', 'snabbdom']) {
 
 describe('Render', function () {
   jsdom();
-
-  it('should throw a parser error with filename and line number when rendering a broken template', function () {
-    const file = 'break-parser'
-    const filename = fixtureFilename(file)
-    const compile = function () {
-      render(fixture(file), {filename})
-    }
-    let threw = false
-
-    try {
-      compile()
-    } catch (err) {
-      threw = true
-      const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
-      assert(err.path == filename, 'err.path should be the full path to the jade file')
-      assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
-      assert(err.message.match(/Unexpected identifier/), 'the error message should contain the error type')
-    } finally {
-      assert(threw, 'an error should be thrown')
-    }
-  })
-
-  it('should throw a compiler error with filename and line number when rendering a broken template', function () {
-    const file = 'break-compiler'
-    const filename = fixtureFilename(file)
-    const compile = function () {
-      render(fixture(file), {filename})
-    }
-    let threw = false
-
-    try {
-      compile()
-    } catch (err) {
-      threw = true
-      const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
-      assert(err.path == filename, 'err.path (' + err.path + ') should be the full path to the jade file')
-      assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
-      assert(err.message.match(/You can only have one top-level tag!/), 'the error message should contain the error type')
-    } finally {
-      assert(threw, 'an error should be thrown')
-    }
-  })
-
-  it('should render a template without options', function () {
-    const compiled = render(fixture('attributes'))
-    assert(compiled.includes('class1'))
-    assert(compiled.includes('foo'))
-    assert(compiled.includes('doge'))
-  })
-
-  it('should render a template', function () {
-    const html = fixtureToHTML('item', {
-      item: {
-        id: '1234',
-        title: 'some title',
-        description: 'some description',
-        active: true,
-      }
-    })
-
-    assert(~html.indexOf('item active'))
-    assert(~html.indexOf('class="title"'))
-    assert(~html.indexOf('<h3'))
-    assert(~html.indexOf('</h3>'))
-    assert(~html.indexOf('some title'))
-    assert(~html.indexOf('some description'))
-  })
-
-  it('should beautify when option is set', function () {
-    const fn = render(fixture('item'), {pretty: true})
-    const lines = fn.split('\n')
-    assert(lines.length > 15)
-    assert(lines[lines.length - 1].trim() === '}')
-  })
-
-  it('should run while loops correctly', function () {
-    const html = fixtureToHTML('while')
-    assert(html.match(/<div class=\"item\">/g).length === 5)
-  })
-
-  it('should insert dynamic tag names', function () {
-    let html = fixtureToHTML('dynamic-tag', {myTag: 'input'})
-    assert(html.includes('<input class="llamas">'))
-    html = fixtureToHTML('dynamic-tag', {myTag: 'textarea'})
-    assert(html.includes('<textarea class="llamas">'))
-  })
 
   describe('multiple files', function () {
     it('should insert included files', function () {
