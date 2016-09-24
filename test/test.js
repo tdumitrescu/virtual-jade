@@ -33,19 +33,20 @@ function renderFixture(fixtureName, locals, options) {
   return html
 }
 
-describe('(TMP) Snabbdom rendering', function () {
-  it('renders a simple template same as virtual-dom', function () {
-    const virtualDomHTML = renderFixture('simple')
-    const snabbDomHTML = renderFixture('simple', {}, {vdom: 'snabbdom'})
-    assert(snabbDomHTML === virtualDomHTML)
-  })
+for (let vdom of ['virtual-dom', 'snabbdom']) {
+  describe(`rendering with ${vdom}`, function () {
+    it('renders a simple template', function () {
+      const html = renderFixture('simple', {}, {vdom})
+      assert(html === '<div>This is text</div>')
+    })
 
-  it('translates basic class notation', function () {
-    const html = renderFixture('class', {}, {vdom: 'snabbdom'})
-    assert(html.includes('div class="foo"'))
-    assert(html.includes('div class="baz llamas"'))
+    it('translates basic class notation', function () {
+      const html = renderFixture('class', {}, {vdom})
+      assert(html.includes('div class="foo"'))
+      assert(html.includes('div class="baz llamas"'))
+    })
   })
-})
+}
 
 describe('Render', function () {
   jsdom();
