@@ -19,10 +19,8 @@ function fixture(name) {
   return fs.readFileSync(fixtureFilename(name), 'utf8')
 }
 
-function renderFixture(fixtureName, locals, options) {
-  options = Object.assign({}, options, {
-    filename: fixtureFilename(fixtureName),
-  })
+function fixtureToHTML(fixtureName, locals, options) {
+  options = Object.assign({filename: fixtureFilename(fixtureName)}, options)
 
   const compiled = render(fixture(fixtureName), options)
   const fn = eval(`(${compiled})`)
@@ -34,14 +32,18 @@ function renderFixture(fixtureName, locals, options) {
 }
 
 for (let vdom of ['virtual-dom', 'snabbdom']) {
+  const renderFixture = function(fixtureName, locals) {
+    return fixtureToHTML(fixtureName, locals, {vdom})
+  }
+
   describe(`rendering with ${vdom}`, function () {
     it('renders a simple template', function () {
-      const html = renderFixture('simple', {}, {vdom})
+      const html = renderFixture('simple')
       assert(html === '<div>This is text</div>')
     })
 
     it('translates basic class notation', function () {
-      const html = renderFixture('class', {}, {vdom})
+      const html = renderFixture('class')
       assert(html.includes('div class="foo"'))
       assert(html.includes('div class="baz llamas"'))
     })
@@ -101,7 +103,7 @@ describe('Render', function () {
   })
 
   it('should render a template', function () {
-    const html = renderFixture('item', {
+    const html = fixtureToHTML('item', {
       item: {
         id: '1234',
         title: 'some title',
@@ -126,33 +128,33 @@ describe('Render', function () {
   })
 
   it('should run while loops correctly', function () {
-    const html = renderFixture('while')
+    const html = fixtureToHTML('while')
     assert(html.match(/<div class=\"item\">/g).length === 5)
   })
 
   it('should insert dynamic tag names', function () {
-    let html = renderFixture('dynamic-tag', {myTag: 'input'})
+    let html = fixtureToHTML('dynamic-tag', {myTag: 'input'})
     assert(html.includes('<input class="llamas">'))
-    html = renderFixture('dynamic-tag', {myTag: 'textarea'})
+    html = fixtureToHTML('dynamic-tag', {myTag: 'textarea'})
     assert(html.includes('<textarea class="llamas">'))
   })
 
   describe('multiple files', function () {
     it('should insert included files', function () {
-      const html = renderFixture('include')
+      const html = fixtureToHTML('include')
       assert(html.includes('<p>Hello</p>'))
       assert(html.includes('<div class="included-content">llamas!!!</div>'))
       assert(html.includes('<p>world</p>'))
     })
 
     it('should make included mixins available', function () {
-      const html = renderFixture('include-with-mixin')
+      const html = fixtureToHTML('include-with-mixin')
       assert(html.includes('<div class="foo">'))
       assert(html.includes('<div class="hello">insert me</div>'))
     })
 
     it('should insert included literal (non-jade) files', function () {
-      const html = renderFixture('literal-import')
+      const html = fixtureToHTML('literal-import')
       const singleRootImport = '<div class="test">test</div>'
       const multiRootImport = '<div>child 1</div><div>child 2</div>'
       const htmlEntities = function(str) {
@@ -171,7 +173,7 @@ describe('Render', function () {
     })
 
     it('should insert extended files', function () {
-      const html = renderFixture('extends')
+      const html = fixtureToHTML('extends')
       assert(html.includes('<div class="foo">'))
       assert(html.includes('capybara'))
       assert(html.includes('default content'))
@@ -180,35 +182,35 @@ describe('Render', function () {
 
   describe('attributes', function () {
     it('should add arbitrary attributes', function () {
-      const html = renderFixture('attributes')
+      const html = fixtureToHTML('attributes')
       assert(html.includes('required'))
       assert(!html.includes('something'))
     })
 
     it('should add class attributes in array notation', function () {
-      let html = renderFixture('attributes')
+      let html = fixtureToHTML('attributes')
       assert(html.includes('1 2'))
-      html = renderFixture('attributes', {variable: 'meow'})
+      html = fixtureToHTML('attributes', {variable: 'meow'})
       assert(html.includes('1 2 meow'))
     })
 
     it('should add class attributes in object notation', function () {
-      let html = renderFixture('attributes')
+      let html = fixtureToHTML('attributes')
       assert(html.includes('obj1'))
       assert(!html.includes('obj2'))
 
-      html = renderFixture('attributes', {variable: 'doge'})
+      html = fixtureToHTML('attributes', {variable: 'doge'})
       assert(html.includes('obj1'))
       assert(html.includes('obj2'))
     })
 
     it('should combine class attributes in different notations gracefully', function () {
-      let html = renderFixture('attributes')
+      let html = fixtureToHTML('attributes')
       assert(html.includes('mixed'))
       assert(html.includes('mixedArray1'))
       assert(!html.includes('mixedObj1'))
 
-      html = renderFixture('attributes', {var2: 'doge'})
+      html = fixtureToHTML('attributes', {var2: 'doge'})
       assert(html.includes('mixed'))
       assert(html.includes('mixedArray1'))
       assert(html.includes('mixedObj1'))
@@ -216,13 +218,13 @@ describe('Render', function () {
     })
 
     it('should render data attributes', function () {
-      const html = renderFixture('attributes', {variable: 'capybara'})
+      const html = fixtureToHTML('attributes', {variable: 'capybara'})
       assert(html.includes('data-foo-id="42"'))
       assert(html.includes('data-var="capybara"'))
     })
 
     it('should convert attributes to correct property names', function () {
-      const html = renderFixture('attributes')
+      const html = fixtureToHTML('attributes')
       assert(html.includes('autocomplete="on"'))
       assert(html.includes('tabindex="5"'))
       assert(html.includes('for="special-attr"'))
@@ -231,37 +233,37 @@ describe('Render', function () {
 
   describe('case statements', function () {
     it('should not execute any cases when none match', function () {
-      const html = renderFixture('case')
+      const html = fixtureToHTML('case')
       assert(!html.includes('foo'))
       assert(!html.includes('bar'))
     })
 
     it('should execute default when no others match', function () {
-      const html = renderFixture('case')
+      const html = fixtureToHTML('case')
       assert(html.includes('llama'))
     })
 
     it('should execute only one match', function () {
-      const html = renderFixture('case', {variable: 1})
+      const html = fixtureToHTML('case', {variable: 1})
       assert(html.includes('span'))
       assert(!html.includes('input'))
       assert(!html.includes('textarea'))
     })
 
     it('should fall through from the first case in a chain', function () {
-      const html = renderFixture('case', {variable2: 'd'})
+      const html = fixtureToHTML('case', {variable2: 'd'})
       assert(html.includes('bar'))
       assert(!html.includes('foo'))
     })
 
     it('should fall through from the middle case in a chain', function () {
-      const html = renderFixture('case', {variable2: 'e'})
+      const html = fixtureToHTML('case', {variable2: 'e'})
       assert(html.includes('bar'))
       assert(!html.includes('foo'))
     })
 
     it('should fall through from the last case in a chain', function () {
-      const html = renderFixture('case', {variable2: 'f'})
+      const html = fixtureToHTML('case', {variable2: 'f'})
       assert(html.includes('bar'))
       assert(!html.includes('foo'))
     })
@@ -271,7 +273,7 @@ describe('Render', function () {
     let html;
 
     beforeEach(function () {
-      html = renderFixture('code')
+      html = fixtureToHTML('code')
     })
 
     it('should run unbuffered code correctly', function () {
@@ -279,10 +281,10 @@ describe('Render', function () {
     })
 
     it('should use locals when evaluating', function () {
-      html = renderFixture('code', {x: 0})
+      html = fixtureToHTML('code', {x: 0})
       assert(~html.indexOf('<div class="baz">'))
 
-      html = renderFixture('code', {x: -1})
+      html = fixtureToHTML('code', {x: -1})
       assert(!~html.indexOf('<div class="baz">'))
     })
 
