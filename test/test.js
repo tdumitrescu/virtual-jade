@@ -140,6 +140,28 @@ for (let vdom of VDOM_LIBS) {
       assert(html.includes('div class="foo"'))
       assert(html.includes('div class="baz llamas"'))
     })
+
+    describe('multiple files', function () {
+      it('should insert included files', function () {
+        const html = renderFixture('include')
+        assert(html.includes('<p>Hello</p>'))
+        assert(html.includes('<div class="included-content">llamas!!!</div>'))
+        assert(html.includes('<p>world</p>'))
+      })
+
+      it('should make included mixins available', function () {
+        const html = renderFixture('include-with-mixin')
+        assert(html.includes('<div class="foo">'))
+        assert(html.includes('<div class="hello">insert me</div>'))
+      })
+
+      it('should insert extended files', function () {
+        const html = renderFixture('extends')
+        assert(html.includes('<div class="foo">'))
+        assert(html.includes('capybara'))
+        assert(html.includes('default content'))
+      })
+    })
   })
 }
 
@@ -147,19 +169,6 @@ describe('Render', function () {
   jsdom();
 
   describe('multiple files', function () {
-    it('should insert included files', function () {
-      const html = fixtureToHTML('include')
-      assert(html.includes('<p>Hello</p>'))
-      assert(html.includes('<div class="included-content">llamas!!!</div>'))
-      assert(html.includes('<p>world</p>'))
-    })
-
-    it('should make included mixins available', function () {
-      const html = fixtureToHTML('include-with-mixin')
-      assert(html.includes('<div class="foo">'))
-      assert(html.includes('<div class="hello">insert me</div>'))
-    })
-
     it('should insert included literal (non-jade) files', function () {
       const html = fixtureToHTML('literal-import')
       const singleRootImport = '<div class="test">test</div>'
@@ -177,13 +186,6 @@ describe('Render', function () {
           '</div>' +
         '</div>'
       assert(html === expectedContents)
-    })
-
-    it('should insert extended files', function () {
-      const html = fixtureToHTML('extends')
-      assert(html.includes('<div class="foo">'))
-      assert(html.includes('capybara'))
-      assert(html.includes('default content'))
     })
   })
 
