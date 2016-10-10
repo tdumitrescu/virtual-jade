@@ -162,6 +162,57 @@ for (let vdom of VDOM_LIBS) {
         assert(html.includes('default content'))
       })
     })
+
+    describe('attributes', function () {
+      it('should add arbitrary attributes', function () {
+        const html = renderFixture('attributes')
+        assert(html.includes('required'))
+        assert(!html.includes('something') || html.includes('something="false"'))
+      })
+
+      it('should add class attributes in array notation', function () {
+        let html = renderFixture('attributes')
+        assert(html.includes('1 2'))
+        html = renderFixture('attributes', {variable: 'meow'})
+        assert(html.includes('1 2 meow'))
+      })
+
+      it('should add class attributes in object notation', function () {
+        let html = renderFixture('attributes')
+        assert(html.includes('obj1'))
+        assert(!html.includes('obj2'))
+
+        html = renderFixture('attributes', {variable: 'doge'})
+        assert(html.includes('obj1'))
+        assert(html.includes('obj2'))
+      })
+
+      it('should combine class attributes in different notations gracefully', function () {
+        let html = renderFixture('attributes')
+        assert(html.includes('mixed'))
+        assert(html.includes('mixedArray1'))
+        assert(!html.includes('mixedObj1'))
+
+        html = renderFixture('attributes', {var2: 'doge'})
+        assert(html.includes('mixed'))
+        assert(html.includes('mixedArray1'))
+        assert(html.includes('mixedObj1'))
+        assert(html.includes('doge'))
+      })
+
+      it('should render data attributes', function () {
+        const html = renderFixture('attributes', {variable: 'capybara'})
+        assert(html.includes('data-foo-id="42"'))
+        assert(html.includes('data-var="capybara"'))
+      })
+
+      it('should convert attributes to correct property names', function () {
+        const html = renderFixture('attributes')
+        assert(html.includes('autocomplete="on"'))
+        assert(html.includes('tabindex="5"'))
+        assert(html.includes('for="special-attr"'))
+      })
+    })
   })
 }
 
@@ -186,57 +237,6 @@ describe('Render', function () {
           '</div>' +
         '</div>'
       assert(html === expectedContents)
-    })
-  })
-
-  describe('attributes', function () {
-    it('should add arbitrary attributes', function () {
-      const html = fixtureToHTML('attributes')
-      assert(html.includes('required'))
-      assert(!html.includes('something'))
-    })
-
-    it('should add class attributes in array notation', function () {
-      let html = fixtureToHTML('attributes')
-      assert(html.includes('1 2'))
-      html = fixtureToHTML('attributes', {variable: 'meow'})
-      assert(html.includes('1 2 meow'))
-    })
-
-    it('should add class attributes in object notation', function () {
-      let html = fixtureToHTML('attributes')
-      assert(html.includes('obj1'))
-      assert(!html.includes('obj2'))
-
-      html = fixtureToHTML('attributes', {variable: 'doge'})
-      assert(html.includes('obj1'))
-      assert(html.includes('obj2'))
-    })
-
-    it('should combine class attributes in different notations gracefully', function () {
-      let html = fixtureToHTML('attributes')
-      assert(html.includes('mixed'))
-      assert(html.includes('mixedArray1'))
-      assert(!html.includes('mixedObj1'))
-
-      html = fixtureToHTML('attributes', {var2: 'doge'})
-      assert(html.includes('mixed'))
-      assert(html.includes('mixedArray1'))
-      assert(html.includes('mixedObj1'))
-      assert(html.includes('doge'))
-    })
-
-    it('should render data attributes', function () {
-      const html = fixtureToHTML('attributes', {variable: 'capybara'})
-      assert(html.includes('data-foo-id="42"'))
-      assert(html.includes('data-var="capybara"'))
-    })
-
-    it('should convert attributes to correct property names', function () {
-      const html = fixtureToHTML('attributes')
-      assert(html.includes('autocomplete="on"'))
-      assert(html.includes('tabindex="5"'))
-      assert(html.includes('for="special-attr"'))
     })
   })
 
