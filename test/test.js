@@ -213,6 +213,44 @@ for (let vdom of VDOM_LIBS) {
         assert(html.includes('for="special-attr"'))
       })
     })
+
+    describe('case statements', function () {
+      it('should not execute any cases when none match', function () {
+        const html = renderFixture('case')
+        assert(!html.includes('foo'))
+        assert(!html.includes('bar'))
+      })
+
+      it('should execute default when no others match', function () {
+        const html = renderFixture('case')
+        assert(html.includes('llama'))
+      })
+
+      it('should execute only one match', function () {
+        const html = renderFixture('case', {variable: 1})
+        assert(html.includes('span'))
+        assert(!html.includes('input'))
+        assert(!html.includes('textarea'))
+      })
+
+      it('should fall through from the first case in a chain', function () {
+        const html = renderFixture('case', {variable2: 'd'})
+        assert(html.includes('bar'))
+        assert(!html.includes('foo'))
+      })
+
+      it('should fall through from the middle case in a chain', function () {
+        const html = renderFixture('case', {variable2: 'e'})
+        assert(html.includes('bar'))
+        assert(!html.includes('foo'))
+      })
+
+      it('should fall through from the last case in a chain', function () {
+        const html = renderFixture('case', {variable2: 'f'})
+        assert(html.includes('bar'))
+        assert(!html.includes('foo'))
+      })
+    })
   })
 }
 
@@ -237,44 +275,6 @@ describe('Render', function () {
           '</div>' +
         '</div>'
       assert(html === expectedContents)
-    })
-  })
-
-  describe('case statements', function () {
-    it('should not execute any cases when none match', function () {
-      const html = fixtureToHTML('case')
-      assert(!html.includes('foo'))
-      assert(!html.includes('bar'))
-    })
-
-    it('should execute default when no others match', function () {
-      const html = fixtureToHTML('case')
-      assert(html.includes('llama'))
-    })
-
-    it('should execute only one match', function () {
-      const html = fixtureToHTML('case', {variable: 1})
-      assert(html.includes('span'))
-      assert(!html.includes('input'))
-      assert(!html.includes('textarea'))
-    })
-
-    it('should fall through from the first case in a chain', function () {
-      const html = fixtureToHTML('case', {variable2: 'd'})
-      assert(html.includes('bar'))
-      assert(!html.includes('foo'))
-    })
-
-    it('should fall through from the middle case in a chain', function () {
-      const html = fixtureToHTML('case', {variable2: 'e'})
-      assert(html.includes('bar'))
-      assert(!html.includes('foo'))
-    })
-
-    it('should fall through from the last case in a chain', function () {
-      const html = fixtureToHTML('case', {variable2: 'f'})
-      assert(html.includes('bar'))
-      assert(!html.includes('foo'))
     })
   })
 
