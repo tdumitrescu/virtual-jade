@@ -251,6 +251,38 @@ for (let vdom of VDOM_LIBS) {
         assert(!html.includes('foo'))
       })
     })
+
+    describe('code blocks', function() {
+      let html;
+
+      beforeEach(function () {
+        html = renderFixture('code')
+      })
+
+      it('should run unbuffered code correctly', function () {
+        assert(~html.indexOf('<div class="example bar">'))
+      })
+
+      it('should use locals when evaluating', function () {
+        html = renderFixture('code', {x: 0})
+        assert(~html.indexOf('<div class="baz">'))
+
+        html = renderFixture('code', {x: -1})
+        assert(!~html.indexOf('<div class="baz">'))
+      })
+
+      it('should output inline buffered code', function () {
+        assert(html.includes('<div class="inline-script"><div class="raw-inline">within another div'))
+      })
+
+      it('should output standalone buffered code', function () {
+        assert(html.includes('<div class="raw-buffered">raw so raw'))
+      })
+
+      it('should not output unbuffered code', function () {
+        assert(!html.includes('should not be output'))
+      })
+    })
   })
 }
 
@@ -275,38 +307,6 @@ describe('Render', function () {
           '</div>' +
         '</div>'
       assert(html === expectedContents)
-    })
-  })
-
-  describe('code blocks', function() {
-    let html;
-
-    beforeEach(function () {
-      html = fixtureToHTML('code')
-    })
-
-    it('should run unbuffered code correctly', function () {
-      assert(~html.indexOf('<div class="example bar">'))
-    })
-
-    it('should use locals when evaluating', function () {
-      html = fixtureToHTML('code', {x: 0})
-      assert(~html.indexOf('<div class="baz">'))
-
-      html = fixtureToHTML('code', {x: -1})
-      assert(!~html.indexOf('<div class="baz">'))
-    })
-
-    it('should output inline buffered code', function () {
-      assert(html.includes('<div class="inline-script"><div class="raw-inline">within another div'))
-    })
-
-    it('should output standalone buffered code', function () {
-      assert(html.includes('<div class="raw-buffered">raw so raw'))
-    })
-
-    it('should not output unbuffered code', function () {
-      assert(!html.includes('should not be output'))
     })
   })
 })
