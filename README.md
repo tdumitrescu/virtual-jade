@@ -3,12 +3,12 @@
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
-Compile your [jade](https://github.com/jadejs/jade) templates into [virtual-dom](https://github.com/Matt-Esch/virtual-dom) functions.
-For people who like reactive templating, but:
+Compile your [jade](https://github.com/jadejs/jade) templates into Virtual DOM functions. Works with multiple Virtual DOM libraries, including:
+- [virtual-dom](https://github.com/Matt-Esch/virtual-dom)
+- [snabbdom](https://github.com/snabbdom/snabbdom)
+- [maquette](https://github.com/AFASSoftware/maquette)
 
-- Don't like writing HTML or JSX
-- Want to handle events themselves
-- Like modularity and granularity
+For people who like declarative reactive templating, but don't like writing HTML or JSX.
 
 Create a template:
 
@@ -84,6 +84,9 @@ Options are:
   not support the `dataset` API).
 - `pretty=false`: whether to beautify the resulting JS.
   Requires you to install `js-beautify` yourself.
+- `propsWrapper`: optional object to wrap Jade attributes in; for example, with `propsWrapper = 'props'`, the template `div(foo="bar")` will translate to something like `h('div', {props: {foo: 'bar'}})` rather than `h('div', {foo: 'bar'})`
+- `runtime`: optional override to include any arbitrary Virtual DOM library that defines the `h()` hyperscript function. E.g. `var h = require('my-special-lib/h');`
+- `vdom`: name of the Virtual DOM library configuration to load (currently either `virtual-dom` or `snabbdom`).
 
 Returns a string that looks like:
 
