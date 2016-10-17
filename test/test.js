@@ -38,61 +38,78 @@ const VDOM_LIBS = [
   'snabbdom',
 ]
 
+describe('configuration', function () {
+  it('should throw when an invalid vdom config is supplied', function () {
+    let threw = false
+    try {
+      render(fixture('simple'), {
+        filename: fixtureFilename('simple'),
+        vdom: 'foobar',
+      })
+    } catch (err) {
+      threw = true
+      assert(err.message === 'No virtual-jade config found for vdom type: foobar')
+    } finally {
+      assert(threw, 'an error should be thrown')
+    }
+  })
+
+  it('should throw a parser error with filename and line number when rendering a broken template', function () {
+    const file = 'break-parser'
+    const filename = fixtureFilename(file)
+    const compile = function () {
+      render(fixture(file), {filename})
+    }
+    let threw = false
+
+    try {
+      compile()
+    } catch (err) {
+      threw = true
+      const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
+      assert(err.path == filename, 'err.path should be the full path to the jade file')
+      assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
+      assert(err.message.match(/Unexpected identifier/), 'the error message should contain the error type')
+    } finally {
+      assert(threw, 'an error should be thrown')
+    }
+  })
+
+  it('should throw a compiler error with filename and line number when rendering a broken template', function () {
+    const file = 'break-compiler'
+    const filename = fixtureFilename(file)
+    const compile = function () {
+      render(fixture(file), {filename})
+    }
+    let threw = false
+
+    try {
+      compile()
+    } catch (err) {
+      threw = true
+      const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
+      assert(err.path == filename, 'err.path (' + err.path + ') should be the full path to the jade file')
+      assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
+      assert(err.message.match(/You can only have one top-level tag!/), 'the error message should contain the error type')
+    } finally {
+      assert(threw, 'an error should be thrown')
+    }
+  })
+
+  it('should render a template without options', function () {
+    const compiled = render(fixture('attributes'))
+    assert(compiled.includes('class1'))
+    assert(compiled.includes('foo'))
+    assert(compiled.includes('doge'))
+  })
+})
+
 for (let vdom of VDOM_LIBS) {
   const renderFixture = function(fixtureName, locals) {
     return fixtureToHTML(fixtureName, locals, {vdom})
   }
 
   describe(`rendering with ${vdom}`, function () {
-    it('should throw a parser error with filename and line number when rendering a broken template', function () {
-      const file = 'break-parser'
-      const filename = fixtureFilename(file)
-      const compile = function () {
-        render(fixture(file), {filename})
-      }
-      let threw = false
-
-      try {
-        compile()
-      } catch (err) {
-        threw = true
-        const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
-        assert(err.path == filename, 'err.path should be the full path to the jade file')
-        assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
-        assert(err.message.match(/Unexpected identifier/), 'the error message should contain the error type')
-      } finally {
-        assert(threw, 'an error should be thrown')
-      }
-    })
-
-    it('should throw a compiler error with filename and line number when rendering a broken template', function () {
-      const file = 'break-compiler'
-      const filename = fixtureFilename(file)
-      const compile = function () {
-        render(fixture(file), {filename})
-      }
-      let threw = false
-
-      try {
-        compile()
-      } catch (err) {
-        threw = true
-        const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
-        assert(err.path == filename, 'err.path (' + err.path + ') should be the full path to the jade file')
-        assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
-        assert(err.message.match(/You can only have one top-level tag!/), 'the error message should contain the error type')
-      } finally {
-        assert(threw, 'an error should be thrown')
-      }
-    })
-
-    it('should render a template without options', function () {
-      const compiled = render(fixture('attributes'))
-      assert(compiled.includes('class1'))
-      assert(compiled.includes('foo'))
-      assert(compiled.includes('doge'))
-    })
-
     it('should render a template', function () {
       const html = renderFixture('item', {
         item: {
