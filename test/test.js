@@ -40,13 +40,6 @@ function fixtureToHTML(fixtureName, locals, options) {
   return html
 }
 
-// run rendering tests against each supported Virtual DOM library
-
-const VDOM_LIBS = [
-  'virtual-dom',
-  'snabbdom',
-]
-
 describe('configuration', function () {
   it('should throw when an invalid vdom config is supplied', function () {
     let threw = false
@@ -112,6 +105,14 @@ describe('configuration', function () {
     assert(compiled.includes('doge'))
   })
 })
+
+
+// run rendering tests against each supported Virtual DOM library
+
+const VDOM_LIBS = [
+  'virtual-dom',
+  'snabbdom',
+]
 
 for (let vdom of VDOM_LIBS) {
   const renderFixture = function(fixtureName, locals) {
