@@ -22,10 +22,19 @@ function fixture(name) {
 function fixtureToHTML(fixtureName, locals, options) {
   options = Object.assign({filename: fixtureFilename(fixtureName)}, options)
 
+  const snabb = options.vdom === 'snabbdom'
+  if (snabb) {
+    // putting all 'raw' attrs into the props object allows
+    // the same template fixtures to work with both virtual-dom
+    // and snabbdom, otherwise snabb expects special keys
+    // props: {}, attrs: {}
+    options.propsWrapper = 'props'
+  }
+
   const compiled = render(fixture(fixtureName), options)
   const fn = eval(`(${compiled})`)
   const root = fn.call({class: 'asdf'}, locals)
-  const toHTML = options.vdom === 'snabbdom' ? snabbdomToHTML : vdomToHTML;
+  const toHTML = snabb ? snabbdomToHTML : vdomToHTML;
   const html = toHTML(root)
   parse5.parse(html, true)
   return html
