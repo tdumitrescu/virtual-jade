@@ -27,20 +27,20 @@ Create a template:
 and use a rendering system like [main-loop](https://github.com/Raynos/main-loop):
 
 ```js
-const mainLoop = require('main-loop')
+const mainLoop = require('main-loop');
 
-const render = require('./items.jade')
+const template = require('./items.jade');
 
 const initState = {
-  items: []
-}
+  items: [],
+};
 
-const loop = mainLoop(initState, render, {
+const loop = mainLoop(initState, template, {
     create: require("virtual-dom/create-element"),
     diff: require("virtual-dom/diff"),
     patch: require("virtual-dom/patch"),
-})
-document.body.appendChild(loop.target)
+});
+document.body.appendChild(loop.target);
 ```
 
 Then update whenever you'd like!
@@ -53,9 +53,9 @@ loop.update({
       title: 'some title',
       description: 'some description',
       active: false,
-    }
-  ]
-})
+    },
+  ],
+});
 ```
 
 ## Notes
@@ -100,7 +100,7 @@ You are expected to `eval()` the string if you want the source as a function.
 Otherwise, just create a module in the following format:
 
 ```js
-const js = `module.exports = ${fnStr}`
+const js = `module.exports = ${fnStr}`;
 ```
 
 [travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
