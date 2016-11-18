@@ -55,5 +55,8 @@ module.exports = {
     'space-before-blocks': [
       'error', 'always',
     ],
+    'space-before-function-paren': [
+      'error', 'never',
+    ],
   },
 };
