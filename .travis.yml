@@ -1,6 +1,6 @@
 node_js:
   - "4.2"
-  - "6.2"
+  - "6.9"
 language: node_js
 sudo: false
 script: "npm run test-ci"
