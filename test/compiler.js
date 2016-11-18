@@ -10,6 +10,7 @@ const path = require('path')
 const fs = require('fs')
 
 const Compiler = require('../lib/compiler')
+const VDOM_RUNTIME = require('../lib/config').VDOM_CONFIG['virtual-dom'].runtime
 
 function fixture(name) {
   return fs.readFileSync(path.resolve(__dirname, 'fixtures/' + name + '.jade'), 'utf8')
@@ -49,7 +50,7 @@ describe('Compiler', function () {
 
   it('should compile the boilerplate', function () {
     let js = testCompilation('boilerplate')
-    let root = eval(`(function(){${js}})()`)
+    let root = eval(`${VDOM_RUNTIME}(function(){${js}})()`)
     let html = toHTML(root)
     parse5.parse(html, true)
   })
@@ -81,7 +82,7 @@ describe('Compiler', function () {
   it('should compile if statements', function () {
     let js = testCompilation('if')
     assert(!~js.indexOf('undefined('))
-    let root = eval(`(function(){${js}})()`)
+    let root = eval(`${VDOM_RUNTIME}(function(){${js}})()`)
     let html = toHTML(root)
     parse5.parse(html, true)
     assert(~html.indexOf('<span></span><span></span>'))
