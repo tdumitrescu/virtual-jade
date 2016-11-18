@@ -20,6 +20,7 @@
     "with": "^5.0.0"
   },
   "devDependencies": {
+    "eslint": "3.10.2",
     "istanbul": "^0.4.2",
     "js-beautify": "^1.5.5",
     "jsdom": "^9.2.1",
@@ -33,7 +34,7 @@
     "virtual-dom": "^2.0.1"
   },
   "scripts": {
-    "lint": "standardberry lib",
+    "lint": "eslint lib test",
     "test": "mocha",
     "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot",
     "test-ci": "npm run lint && istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter dot"
