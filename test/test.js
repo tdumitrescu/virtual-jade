@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 'use strict'
 
 const assert = require('assert')
@@ -68,8 +70,8 @@ describe('configuration', function () {
       compile()
     } catch (err) {
       threw = true
-      const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
-      assert(err.path == filename, 'err.path should be the full path to the jade file')
+      const filenameAndLineNo = new RegExp(filename.replace('/', '\/') + ":2")
+      assert(err.path === filename, 'err.path should be the full path to the jade file')
       assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
       assert(err.message.match(/Unexpected identifier/), 'the error message should contain the error type')
     } finally {
@@ -89,8 +91,8 @@ describe('configuration', function () {
       compile()
     } catch (err) {
       threw = true
-      const filenameAndLineNo = new RegExp(filename.replace('/','\/') + ":2")
-      assert(err.path == filename, 'err.path (' + err.path + ') should be the full path to the jade file')
+      const filenameAndLineNo = new RegExp(filename.replace('/', '\/') + ":2")
+      assert(err.path === filename, 'err.path (' + err.path + ') should be the full path to the jade file')
       assert(err.message.match(filenameAndLineNo), 'the error message should contain the full path and line number')
       assert(err.message.match(/You can only have one top-level tag!/), 'the error message should contain the error type')
     } finally {
@@ -127,7 +129,7 @@ for (let vdom of VDOM_LIBS) {
           title: 'some title',
           description: 'some description',
           active: true,
-        }
+        },
       })
 
       assert(~html.indexOf('item active'))

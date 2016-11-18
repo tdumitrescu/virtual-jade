@@ -1,18 +1,36 @@
+/* eslint-env mocha */
+
 'use strict'
 
 const toHTML = require('vdom-to-html')
 const parse5 = require('parse5-utils')
 const Parser = require('jade').Parser
-const h = require('virtual-dom/h')
 const assert = require('assert')
 const path = require('path')
 const fs = require('fs')
 
 const Compiler = require('../lib/compiler')
 
+function fixture(name) {
+  return fs.readFileSync(path.resolve(__dirname, 'fixtures/' + name + '.jade'), 'utf8')
+}
+
+function testCompilation(fixtureName, options) {
+  if (!options) options = {}
+  options.pretty = true
+  let parser = new Parser(fixture(fixtureName))
+  let tokens = parser.parse()
+  let compiler = new Compiler(tokens, options)
+  let js = compiler.compile()
+  // make sure it's syntactically valid
+  new Function(js)
+  return js
+}
+
+
 describe('Compiler', function () {
   it('should compile functions as properties', function () {
-    let js = testCompilation('inline-function')
+    testCompilation('inline-function')
   })
 
   it('should throw if there is not exactly 1 tag', function () {
@@ -74,7 +92,7 @@ describe('Compiler', function () {
   })
 
   it('should compile case statements', function () {
-    let js = testCompilation('case')
+    testCompilation('case')
   })
 
   it('should compile top-level JS', function () {
@@ -89,7 +107,7 @@ describe('Compiler', function () {
   })
 
   it('should compile each', function () {
-    let js = testCompilation('each')
+    testCompilation('each')
   })
 
   it('should compile each, index', function () {
@@ -98,11 +116,11 @@ describe('Compiler', function () {
   })
 
   it('should compile each w/ expressions', function () {
-    let js = testCompilation('each-expression')
+    testCompilation('each-expression')
   })
 
   it('should compile a while loop', function () {
-    let js = testCompilation('while')
+    testCompilation('while')
   })
 
   it('should compile mixins without arguments', function () {
@@ -131,19 +149,3 @@ describe('Compiler', function () {
     assert(~js.indexOf("jade_mixins['item'].call({attributes: {"))
   })
 })
-
-function testCompilation(fixture_name, options) {
-  if (!options) options = {}
-  options.pretty = true
-  let parser = new Parser(fixture(fixture_name))
-  let tokens = parser.parse()
-  let compiler = new Compiler(tokens, options)
-  let js = compiler.compile()
-  // make sure it's syntactically valid
-  new Function(js)
-  return js
-}
-
-function fixture(name) {
-  return fs.readFileSync(path.resolve(__dirname, 'fixtures/' + name + '.jade'), 'utf8')
-}
