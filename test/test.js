@@ -147,11 +147,6 @@ for (let vdom of VDOM_LIBS) {
       assert(lines[lines.length - 1].trim() === `}`);
     });
 
-    it(`should run while loops correctly`, function() {
-      const html = renderFixture(`while`);
-      assert(html.match(/<div class=\"item\">/g).length === 5);
-    });
-
     it(`should insert dynamic tag names`, function() {
       let html = renderFixture(`dynamic-tag`, {myTag: `input`});
       assert(html.includes(`<input class="llamas">`));
@@ -168,6 +163,18 @@ for (let vdom of VDOM_LIBS) {
       const html = renderFixture(`class`);
       assert(html.includes(`div class="foo"`));
       assert(html.includes(`div class="baz llamas"`));
+    });
+
+    describe(`iteration`, function() {
+      it(`should run "each" loops correctly`, function() {
+        const html = renderFixture(`each-expression`, {values: ['foo', 'bar']});
+        assert(html.includes(`<li>foo</li><li>bar</li>`));
+      });
+
+      it(`should run "while" loops correctly`, function() {
+        const html = renderFixture(`while`);
+        assert(html.match(/<div class=\"item\">/g).length === 5);
+      });
     });
 
     describe(`multiple files`, function() {
