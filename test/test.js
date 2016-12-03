@@ -170,7 +170,7 @@ for (let vdom of VDOM_LIBS) {
 
     describe(`iteration`, function() {
       it(`should run "each" loops correctly`, function() {
-        const html = renderFixture(`each-expression`, {values: ['foo', 'bar']});
+        const html = renderFixture(`each-expression`, {values: [`foo`, `bar`]});
         assert(html.includes(`<li>foo</li><li>bar</li>`));
       });
 
