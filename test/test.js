@@ -3,6 +3,7 @@
 'use strict';
 
 const assert = require(`assert`);
+const debug = require(`debug`)(`test`);
 const fs = require(`fs`);
 const jsdom = require(`mocha-jsdom`);
 const parse5 = require(`parse5-utils`);
@@ -34,6 +35,8 @@ function fixtureToHTML(fixtureName, locals, options) {
   }
 
   const compiled = render(fixture(fixtureName), options);
+  debug(compiled);
+
   const fn = eval(`(${compiled})`);
   const root = fn.call({class: `asdf`}, locals);
   const toHTML = snabb ? snabbdomToHTML : vdomToHTML;
