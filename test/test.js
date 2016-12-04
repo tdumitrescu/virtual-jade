@@ -138,12 +138,12 @@ for (let vdom of VDOM_LIBS) {
         },
       });
 
-      assert(~html.indexOf(`item active`));
-      assert(~html.indexOf(`class="title"`));
-      assert(~html.indexOf(`<h3`));
-      assert(~html.indexOf(`</h3>`));
-      assert(~html.indexOf(`some title`));
-      assert(~html.indexOf(`some description`));
+      expect(html).to.contain(`item active`);
+      expect(html).to.contain(`class="title"`);
+      expect(html).to.contain(`<h3`);
+      expect(html).to.contain(`</h3>`);
+      expect(html).to.contain(`some title`);
+      expect(html).to.contain(`some description`);
     });
 
     it(`should beautify when option is set`, function() {
@@ -302,15 +302,15 @@ for (let vdom of VDOM_LIBS) {
       });
 
       it(`should run unbuffered code correctly`, function() {
-        assert(~html.indexOf(`<div class="example bar">`));
+        expect(html).to.contain(`<div class="example bar">`);
       });
 
       it(`should use locals when evaluating`, function() {
         html = renderFixture(`code`, {x: 0});
-        assert(~html.indexOf(`<div class="baz">`));
+        expect(html).to.contain(`<div class="baz">`);
 
         html = renderFixture(`code`, {x: -1});
-        assert(!~html.indexOf(`<div class="baz">`));
+        expect(html).not.to.contain(`<div class="baz">`);
       });
 
       it(`should output inline buffered code`, function() {
