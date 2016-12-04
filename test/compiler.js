@@ -2,7 +2,6 @@
 
 'use strict';
 
-const assert = require(`assert`);
 const expect = require(`expect.js`);
 const fs = require(`fs`);
 const parse5 = require(`parse5-utils`);
@@ -50,39 +49,39 @@ describe(`Compiler`, function() {
 
   it(`should compile attributes`, function() {
     let js = testCompilation(`attributes`);
-    assert(!js.match(/\bclass\b/), `\`class\` found somewhere!`);
-    assert.equal(js.match(/"className"/g).length, 4, `Incorrect number of class properties set.`);
+    expect(js).not.to.match(/\bclass\b/);
+    expect(js.match(/"className"/g)).to.have.length(4);
   });
 
   it(`should compile data attributes to dataset`, function() {
     let js = testCompilation(`attributes`);
-    assert(!js.match(/\bdata-foo\b/), `\`data-foo\` found somewhere!`);
-    assert(js.match(/\bdataset\b/), `\`dataset\` not found!`);
+    expect(js).not.to.match(/\bdata-foo\b/);
+    expect(js).to.match(/\bdataset\b/);
   });
 
   it(`should optionally not compile data attributes to dataset`, function() {
     let js = testCompilation(`attributes`, {marshalDataset: false});
-    assert(!js.match(/\bdataset\b/), `\`dataset\` found somewhere!`);
-    assert(js.match(/\bdata-foo\b/), `\`data-foo\` not found!`);
+    expect(js).not.to.match(/\bdataset\b/);
+    expect(js).to.match(/\bdata-foo\b/);
   });
 
   it(`should handle basic string interpolation`, function() {
     let js = testCompilation(`interpolation`);
-    assert(~js.indexOf(`+ (x + 5) +`));
-    assert(~js.indexOf(`+ (x - 2) +`));
+    expect(js).to.contain(`+ (x + 5) +`);
+    expect(js).to.contain(`+ (x - 2) +`);
   });
 
   it(`should compile if statements`, function() {
     let js = testCompilation(`if`);
-    assert(!~js.indexOf(`undefined(`));
+    expect(js).not.to.contain(`undefined(`);
     let root = eval(`${VDOM_RUNTIME}(function(){${js}})()`);
     let html = toHTML(root);
     parse5.parse(html, true);
-    assert(~html.indexOf(`<span></span><span></span>`));
-    assert(!~html.indexOf(`<em>`));
-    assert(~html.indexOf(`a1`));
-    assert(!~html.indexOf(`a2`));
-    assert(!~html.indexOf(`a3`));
+    expect(html).to.contain(`<span></span><span></span>`);
+    expect(html).not.to.contain(`<em>`);
+    expect(html).to.contain(`a1`);
+    expect(html).not.to.contain(`a2`);
+    expect(html).not.to.contain(`a3`);
   });
 
   it(`should compile case statements`, function() {
@@ -91,13 +90,13 @@ describe(`Compiler`, function() {
 
   it(`should compile top-level JS`, function() {
     let js = testCompilation(`top-level-code`);
-    assert(~js.indexOf(`var a = 1\n`));
-    assert(~js.indexOf(`var b = 2\n`));
+    expect(js).to.contain(`var a = 1\n`);
+    expect(js).to.contain(`var b = 2\n`);
   });
 
   it(`should compile JS in blocks`, function() {
     let js = testCompilation(`code`);
-    assert(~js.indexOf(`foo = ['bar']`));
+    expect(js).to.contain(`foo = ['bar']`);
   });
 
   it(`should compile each`, function() {
@@ -106,7 +105,7 @@ describe(`Compiler`, function() {
 
   it(`should compile each, index`, function() {
     let js = testCompilation(`each-index`);
-    assert(~js.indexOf(`anIndex`));
+    expect(js).to.contain(`anIndex`);
   });
 
   it(`should compile each w/ expressions`, function() {
@@ -119,27 +118,27 @@ describe(`Compiler`, function() {
 
   it(`should compile mixins without arguments`, function() {
     let js = testCompilation(`mixin`);
-    assert(~js.indexOf(`jade_mixins['item'].call(this)`));
+    expect(js).to.contain(`jade_mixins['item'].call(this)`);
   });
 
   it(`should compile mixins with arguments`, function() {
     let js = testCompilation(`mixin-args`);
-    assert(~js.indexOf(`jade_mixins['item'].call(this, 5)`));
+    expect(js).to.contain(`jade_mixins['item'].call(this, 5)`);
   });
 
   it(`should compile mixins with rest arguments`, function() {
     let js = testCompilation(`mixin-rest`);
-    assert(~js.indexOf(`function(x)`));
-    assert(~js.indexOf(`jade_mixins['item'].call(this, 5, 'a', 'b')`));
+    expect(js).to.contain(`function(x)`);
+    expect(js).to.contain(`jade_mixins['item'].call(this, 5, 'a', 'b')`);
   });
 
   it(`should compile mixins with blocks`, function() {
     let js = testCompilation(`mixin-block`);
-    assert(~js.indexOf(`jade_mixins['item'].call({block: function()`));
+    expect(js).to.contain(`jade_mixins['item'].call({block: function()`);
   });
 
   it(`should compile mixins with attributes`, function() {
     let js = testCompilation(`mixin-attrs`);
-    assert(~js.indexOf(`jade_mixins['item'].call({attributes: {`));
+    expect(js).to.contain(`jade_mixins['item'].call({attributes: {`);
   });
 });
