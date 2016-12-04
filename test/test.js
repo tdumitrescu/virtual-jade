@@ -41,6 +41,8 @@ function fixtureToHTML(fixtureName, locals, options) {
   const root = fn.call({class: `asdf`}, locals);
   const toHTML = snabb ? snabbdomToHTML : vdomToHTML;
   const html = toHTML(root);
+  debug(html);
+
   parse5.parse(html, true);
   return html;
 }
@@ -121,7 +123,7 @@ const VDOM_LIBS = [
 
 for (let vdom of VDOM_LIBS) {
   const renderFixture = function(fixtureName, locals) {
-    return fixtureToHTML(fixtureName, locals, {vdom});
+    return fixtureToHTML(fixtureName, locals, {vdom, pretty: true});
   };
 
   describe(`rendering with ${vdom}`, function() {
