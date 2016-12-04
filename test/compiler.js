@@ -2,12 +2,13 @@
 
 'use strict';
 
-const toHTML = require(`vdom-to-html`);
+const assert = require(`assert`);
+const expect = require(`expect.js`);
+const fs = require(`fs`);
 const parse5 = require(`parse5-utils`);
 const Parser = require(`jade`).Parser;
-const assert = require(`assert`);
 const path = require(`path`);
-const fs = require(`fs`);
+const toHTML = require(`vdom-to-html`);
 
 const Compiler = require(`../lib/compiler`);
 const VDOM_RUNTIME = require(`../lib/config`).VDOM_CONFIG[`virtual-dom`].runtime;
@@ -35,17 +36,9 @@ describe(`Compiler`, function() {
   });
 
   it(`should throw if there is not exactly 1 tag`, function() {
-    assert.throws(function() {
-      testCompilation(`root-if`);
-    });
-
-    assert.throws(function() {
-      testCompilation(`empty`);
-    });
-
-    assert.throws(function() {
-      testCompilation(`multiple-tags`);
-    });
+    expect(testCompilation).withArgs(`root-if`).to.throwException();
+    expect(testCompilation).withArgs(`empty`).to.throwException();
+    expect(testCompilation).withArgs(`multiple-tags`).to.throwException();
   });
 
   it(`should compile the boilerplate`, function() {
