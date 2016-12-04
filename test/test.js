@@ -2,7 +2,6 @@
 
 'use strict';
 
-const assert = require(`assert`);
 const debug = require(`debug`)(`test`);
 const expect = require(`expect.js`);
 const fs = require(`fs`);
@@ -122,8 +121,8 @@ for (let vdom of VDOM_LIBS) {
     it(`should beautify when option is set`, function() {
       const fn = render(fixture(`item`), {pretty: true});
       const lines = fn.split(`\n`);
-      assert(lines.length > 15);
-      assert(lines[lines.length - 1].trim() === `}`);
+      expect(lines.length).to.be.greaterThan(15);
+      expect(lines[lines.length - 1].trim()).to.be(`}`);
     });
 
     it(`should insert dynamic tag names`, function() {
@@ -135,7 +134,7 @@ for (let vdom of VDOM_LIBS) {
 
     it(`renders a simple template`, function() {
       const html = renderFixture(`simple`);
-      assert(html === `<div>This is text</div>`);
+      expect(html).to.be(`<div>This is text</div>`);
     });
 
     it(`translates basic class notation`, function() {
@@ -312,7 +311,7 @@ describe(`Render`, function() {
       const htmlEntities = function(str) {
         return String(str).replace(/&/g, `&amp;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`).replace(/"/g, `&quot;`);
       };
-      const expectedContents =
+      expect(html).to.be(
         `<div class="raw">` +
           `<div class="single-root">` +
             `<text>` + htmlEntities(singleRootImport) + `</text>` +
@@ -320,8 +319,8 @@ describe(`Render`, function() {
           `<div class="multi-root">` +
             `<text>` + htmlEntities(`<div>` + multiRootImport + `</div>`) + `</text>` +
           `</div>` +
-        `</div>`;
-      assert(html === expectedContents);
+        `</div>`
+      );
     });
   });
 });
