@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "eslint": "3.10.2",
+    "expect.js": "^0.3.1",
     "istanbul": "^0.4.2",
     "js-beautify": "^1.5.5",
     "jsdom": "^9.2.1",

@@ -4,6 +4,7 @@
 
 const assert = require(`assert`);
 const debug = require(`debug`)(`test`);
+const expect = require(`expect.js`);
 const fs = require(`fs`);
 const jsdom = require(`mocha-jsdom`);
 const parse5 = require(`parse5-utils`);
@@ -173,12 +174,12 @@ for (let vdom of VDOM_LIBS) {
     describe(`iteration`, function() {
       it(`should run "each" loops correctly`, function() {
         const html = renderFixture(`each-expression`, {values: [`foo`, `bar`]});
-        assert(html.includes(`<li>foo</li><li>bar</li>`));
+        expect(html).to.contain(`<li>foo</li><li>bar</li>`);
       });
 
       it(`should run "while" loops correctly`, function() {
         const html = renderFixture(`while`);
-        assert(html.match(/<div class=\"item\">/g).length === 5);
+        expect(html.match(/<div class=\"item\">/g)).to.have.length(5);
       });
     });
 
