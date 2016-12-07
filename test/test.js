@@ -314,6 +314,10 @@ describe(`snabbdom-specific rendering`, function() {
   it(`renders properties`, function() {
     expect(html).to.contain(`id="xxx"`);
   });
+
+  it(`renders classes from object notation`, function() {
+    expect(html).to.contain(`class="obj-class"`);
+  });
 });
 
 describe(`Render`, function() {
