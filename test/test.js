@@ -310,6 +310,10 @@ describe(`snabbdom-specific rendering`, function() {
   it(`renders arbitrary attributes`, function() {
     expect(html).to.contain(`bar="baz"`);
   });
+
+  it(`renders properties`, function() {
+    expect(html).to.contain(`id="xxx"`);
+  });
 });
 
 describe(`Render`, function() {
