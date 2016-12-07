@@ -26,7 +26,7 @@ function fixtureToHTML(fixtureName, locals, options) {
   options = Object.assign({filename: fixtureFilename(fixtureName)}, options);
 
   const snabb = options.vdom === `snabbdom`;
-  if (snabb) {
+  if (snabb && !options.snabbArgs) {
     // putting all 'raw' attrs into the props object allows
     // the same template fixtures to work with both virtual-dom
     // and snabbdom, otherwise snabb expects special keys
@@ -299,6 +299,18 @@ for (let vdom of VDOM_LIBS) {
     });
   });
 }
+
+describe(`snabbdom-specific rendering`, function() {
+  const html = fixtureToHTML(`snabb`, {}, {
+    vdom: `snabbdom`,
+    snabbArgs: true,
+    pretty: true,
+  });
+
+  it(`renders arbitrary attributes`, function() {
+    expect(html).to.contain(`bar="baz"`);
+  });
+});
 
 describe(`Render`, function() {
   jsdom();
