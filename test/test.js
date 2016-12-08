@@ -321,6 +321,14 @@ describe(`snabbdom-specific rendering`, function() {
     const classes = html.match(/class="(.+?)"/)[1].split(` `);
     expect(classes.sort()).to.eql([`jade-class`, `foo`, `obj-class`].sort());
   });
+
+  it(`renders jade-only class notation`, function() {
+    expect(html).to.contain(`<div class="single-class"`);
+  });
+
+  it(`renders object-only class notation`, function() {
+    expect(html).to.contain(`<a class="aclass"`);
+  });
 });
 
 describe(`Render`, function() {
