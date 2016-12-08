@@ -316,8 +316,10 @@ describe(`snabbdom-specific rendering`, function() {
     expect(html).to.contain(`id="xxx"`);
   });
 
-  it(`renders classes from object notation`, function() {
-    expect(html).to.contain(`class="obj-class"`);
+  it(`combines classes from jade notation and object notation`, function() {
+    expect(html).to.match(/class=".+"/);
+    const classes = html.match(/class="(.+?)"/)[1].split(` `);
+    expect(classes.sort()).to.eql([`jade-class`, `foo`, `obj-class`].sort());
   });
 });
 
