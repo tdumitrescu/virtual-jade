@@ -308,6 +308,10 @@ describe(`snabbdom-specific rendering`, function() {
     pretty: true,
   });
 
+  it(`renders plain objects`, function() {
+    expect(html).to.contain(`<div>Hello</div>`);
+  });
+
   it(`renders arbitrary attributes`, function() {
     expect(html).to.contain(`bar="baz"`);
   });
