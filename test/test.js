@@ -32,6 +32,7 @@ function fixtureToHTML(fixtureName, locals, options) {
     // and snabbdom, otherwise snabb expects special keys
     // props: {}, attrs: {}
     options.propsWrapper = `props`;
+    options.rawProps = false;
   }
 
   const compiled = render(fixture(fixtureName), options);
