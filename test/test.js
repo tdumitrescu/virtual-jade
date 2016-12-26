@@ -5,7 +5,6 @@
 const debug = require(`debug`)(`test`);
 const expect = require(`expect.js`);
 const fs = require(`fs`);
-const jsdom = require(`mocha-jsdom`);
 const parse5 = require(`parse5-utils`);
 const path = require(`path`);
 const vdomToHTML = require(`vdom-to-html`);
@@ -88,8 +87,6 @@ describe(`configuration`, function() {
 });
 
 describe(`rendering`, function() {
-
-  jsdom();
 
   // run rendering tests against each supported Virtual DOM library
 
