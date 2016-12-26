@@ -303,15 +303,6 @@ describe(`rendering`, function() {
       });
 
       describe(`multiple files`, function() {
-        const htmlEntities = function(str) {
-          return String(str)
-            .replace(/&/g, `&amp;`)
-            .replace(/</g, `&lt;`)
-            .replace(/>/g, `&gt;`)
-            .replace(/"/g, `&quot;`)
-            ;
-        };
-
         it(`inserts included literal (non-jade) files`, function() {
           const html = renderFixture(`literal-import`);
           const singleRootImport = `<div class="test">test</div>`;
@@ -319,10 +310,10 @@ describe(`rendering`, function() {
           expect(html).to.be(
             `<div class="raw">` +
               `<div class="single-root">` +
-                `<text>` + htmlEntities(singleRootImport) + `</text>` +
+                `<div>` + singleRootImport + `</div>` +
               `</div>` +
               `<div class="multi-root">` +
-                `<text>` + htmlEntities(`<div>` + multiRootImport + `</div>`) + `</text>` +
+                `<div>` + multiRootImport + `</div>` +
               `</div>` +
             `</div>`
           );
