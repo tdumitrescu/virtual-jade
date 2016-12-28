@@ -12,6 +12,9 @@ const snabbdomToHTML = require(`snabbdom-to-html`);
 
 const render = require(`..`);
 
+// expected output from literal imports
+const SINGLE_ROOT_IMPORT_HTML = `<div class="test">test</div>`;
+const MULTI_ROOT_IMPORT_HTML = `<div>child 1</div><div>child 2</div>`;
 
 function fixtureFilename(name) {
   return path.resolve(__dirname, `fixtures/` + name + `.jade`);
@@ -302,15 +305,13 @@ describe(`rendering`, function() {
       describe(`multiple files`, function() {
         it(`inserts included literal (non-jade) files`, function() {
           const html = renderFixture(`literal-import`);
-          const singleRootImport = `<div class="test">test</div>`;
-          const multiRootImport = `<div>child 1</div><div>child 2</div>`;
           expect(html).to.be(
             `<div class="raw">` +
               `<div class="single-root">` +
-                `<div>` + singleRootImport + `</div>` +
+                `<div>` + SINGLE_ROOT_IMPORT_HTML + `</div>` +
               `</div>` +
               `<div class="multi-root">` +
-                `<div>` + multiRootImport + `</div>` +
+                `<div>` + MULTI_ROOT_IMPORT_HTML + `</div>` +
               `</div>` +
             `</div>`
           );
@@ -351,5 +352,9 @@ describe(`snabbdom-specific rendering`, function() {
 
   it(`renders object-only class notation`, function() {
     expect(html).to.contain(`<a class="aclass"`);
+  });
+
+  it(`renders literal imports`, function() {
+    expect(html).to.contain(MULTI_ROOT_IMPORT_HTML);
   });
 });
