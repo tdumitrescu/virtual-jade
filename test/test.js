@@ -340,6 +340,10 @@ describe(`snabbdom-specific rendering`, function() {
     expect(html).to.contain(`id="xxx"`);
   });
 
+  it(`translates id-selector notation`, function() {
+    expect(html).to.contain(`id="id-example"`);
+  });
+
   it(`combines classes from jade notation and object notation`, function() {
     expect(html).to.match(/class=".+"/);
     const classes = html.match(/class="(.+?)"/)[1].split(` `);
