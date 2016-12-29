@@ -341,7 +341,12 @@ describe(`snabbdom-specific rendering`, function() {
   });
 
   it(`translates id-selector notation`, function() {
-    expect(html).to.contain(`id="id-example"`);
+    expect(html).to.contain(`id="id-example1"`);
+  });
+
+  it(`combines id-selector notation with props object`, function() {
+    expect(html).to.contain(`id="id-example2"`);
+    expect(html).to.contain(`href="link2"`);
   });
 
   it(`combines classes from jade notation and object notation`, function() {
