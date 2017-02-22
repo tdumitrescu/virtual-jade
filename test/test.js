@@ -147,6 +147,16 @@ describe(`rendering`, function() {
         expect(html).to.contain(`div class="baz llamas"`);
       });
 
+      it(`renders falsey numeric values`, function() {
+        const html = renderFixture(`falsey-content`);
+        expect(html).to.contain(`<span class="zero-a">0</span>`);
+        expect(html).to.contain(`<span class="zero-b">0</span>`);
+        expect(html).to.contain(`<span class="zero-c">0</span>`);
+        expect(html).to.contain(`<span class="one">1</span>`);
+        expect(html).to.contain(`<span class="null">`);
+        expect(html).not.to.contain(`<span class="null">null`);
+      });
+
       describe(`iteration`, function() {
         it(`runs "each" loops correctly`, function() {
           const html = renderFixture(`each-expression`, {values: [`foo`, `bar`]});
