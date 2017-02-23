@@ -154,8 +154,7 @@ describe(`rendering`, function() {
         expect(html).to.contain(`<span class="zero-c">0</span>`);
         expect(html).to.contain(`<span class="zero-d">0</span>`);
         expect(html).to.contain(`<span class="one">1</span>`);
-        expect(html).to.contain(`<span class="null">`);
-        expect(html).not.to.contain(`<span class="null">null`);
+        expect(html).to.contain(`<span class="null">null</span>`);
       });
 
       describe(`iteration`, function() {
