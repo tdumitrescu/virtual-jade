@@ -1,3 +1,9 @@
 .obj-entries
+
+  //- object variable
   each val, key in obj
     .obj-entry Value of #{key} is #{val}
+
+  //- object literal
+  each val, key in {foo: 'bar'}
+    .literal-entry Literal key: #{key} / val: #{val}

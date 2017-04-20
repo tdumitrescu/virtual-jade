@@ -168,10 +168,22 @@ describe(`rendering`, function() {
           expect(html.match(/<div class=\"item\">/g)).to.have.length(5);
         });
 
-        it(`iterates over object key/value pairs correctly`, function() {
-          const html = renderFixture(`each-object`, {obj: {wombat: `llama`}});
-          expect(html).to.contain(`<div class="obj-entry">Value of wombat is llama</div>`);
-          expect(html.match(/obj-entry/g)).to.have.length(1);
+        context(`over object key/value pairs`, function() {
+          let html;
+
+          beforeEach(function() {
+            html = renderFixture(`each-object`, {obj: {wombat: `llama`}});
+          });
+
+          it(`works with object literals`, function() {
+            expect(html).to.contain(`<div class="literal-entry">Literal key: foo / val: bar</div>`);
+            expect(html.match(/literal-entry/g)).to.have.length(1);
+          });
+
+          it(`works with object variables`, function() {
+            expect(html).to.contain(`<div class="obj-entry">Value of wombat is llama</div>`);
+            expect(html.match(/obj-entry/g)).to.have.length(1);
+          });
         });
       });
 
