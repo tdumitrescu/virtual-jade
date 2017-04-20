@@ -167,6 +167,11 @@ describe(`rendering`, function() {
           const html = renderFixture(`while`);
           expect(html.match(/<div class=\"item\">/g)).to.have.length(5);
         });
+
+        it(`iterates over object key/value pairs correctly`, function() {
+          const html = renderFixture(`each-object`, {obj: {wombat: `llama`}});
+          expect(html).to.contain(`<div class="object-entry">Value of wombat is llama</div>`);
+        });
       });
 
       describe(`multiple files`, function() {
