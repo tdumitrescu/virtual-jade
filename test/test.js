@@ -171,6 +171,7 @@ describe(`rendering`, function() {
         it(`iterates over object key/value pairs correctly`, function() {
           const html = renderFixture(`each-object`, {obj: {wombat: `llama`}});
           expect(html).to.contain(`<div class="obj-entry">Value of wombat is llama</div>`);
+          expect(html.match(/obj-entry/g)).to.have.length(1);
         });
       });
 
