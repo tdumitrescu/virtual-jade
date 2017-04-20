@@ -168,6 +168,16 @@ describe(`rendering`, function() {
           expect(html.match(/<div class=\"item\">/g)).to.have.length(5);
         });
 
+        it(`runs "else" block if no iteration occurred`, function() {
+          let html = renderFixture(`each-else`, {items: [`foo`, `bar`]});
+          expect(html).to.contain(`<li>foo</li><li>bar</li>`);
+          expect(html).not.to.contain(`No items found`);
+
+          html = renderFixture(`each-else`, {items: []});
+          expect(html).not.to.contain(`<li>foo</li><li>bar</li>`);
+          expect(html).to.contain(`No items found`);
+        });
+
         context(`over object key/value pairs`, function() {
           let html;
 
