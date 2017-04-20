@@ -172,7 +172,10 @@ describe(`rendering`, function() {
           let html;
 
           beforeEach(function() {
-            html = renderFixture(`each-object`, {obj: {wombat: `llama`}});
+            html = renderFixture(`each-object`, {obj: {
+              llama: `a`,
+              wombat: `b`,
+            }});
           });
 
           it(`works with object literals`, function() {
@@ -181,8 +184,9 @@ describe(`rendering`, function() {
           });
 
           it(`works with object variables`, function() {
-            expect(html).to.contain(`<div class="obj-entry">Value of wombat is llama</div>`);
-            expect(html.match(/obj-entry/g)).to.have.length(1);
+            expect(html).to.contain(`<div class="obj-entry">Value of llama is a</div>`);
+            expect(html).to.contain(`<div class="obj-entry">Value of wombat is b</div>`);
+            expect(html.match(/obj-entry/g)).to.have.length(2);
           });
         });
       });
