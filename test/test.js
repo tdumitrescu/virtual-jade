@@ -198,6 +198,11 @@ describe(`rendering`, function() {
             expect(html).to.contain(`<div class="obj-entry">Value of wombat is b</div>`);
             expect(html.match(/obj-entry/g)).to.have.length(2);
           });
+
+          it(`runs "else" block if no iteration occurred`, function() {
+            expect(html).not.to.contain(`entry-present`);
+            expect(html).to.contain(`No entries in object`);
+          });
         });
       });
 

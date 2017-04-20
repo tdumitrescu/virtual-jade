@@ -7,3 +7,9 @@
   //- object literal
   each val, key in {foo: 'bar'}
     .literal-entry Literal key: #{key} / val: #{val}
+
+  //- else-block for empty cases
+  each val, key in {}
+    .entry-present
+  else
+    .no-entry No entries in object
