@@ -1,7 +1,7 @@
 {
   "name": "virtual-jade",
   "description": "Compile Jade templates to virtual-dom functions",
-  "version": "0.8.2",
+  "version": "0.9.0",
   "author": "Ted Dumitrescu <webdev@cmme.org>",
   "contributors": [
     "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
