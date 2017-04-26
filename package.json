@@ -2,9 +2,9 @@
   "name": "virtual-jade",
   "description": "Compile Jade templates to virtual-dom functions",
   "version": "0.8.2",
-  "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
+  "author": "Ted Dumitrescu <webdev@cmme.org>",
   "contributors": [
-    "Ted Dumitrescu <webdev@cmme.org>",
+    "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
     "Josh Wymer <wymetyme@gmail.com>"
   ],
   "license": "MIT",
@@ -43,9 +43,13 @@
     "dom",
     "jade",
     "html",
+    "maquette",
+    "pug",
     "reactive",
+    "snabbdom",
     "template",
-    "templating"
+    "templating",
+    "virtual-dom"
   ],
   "files": [
     "lib"
