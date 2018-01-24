@@ -90,13 +90,14 @@ describe(`Compiler`, function() {
 
   it(`compiles top-level JS`, function() {
     let js = testCompilation(`top-level-code`);
-    expect(js).to.contain(`var a = 1\n`);
-    expect(js).to.contain(`var b = 2\n`);
+    expect(js).to.contain(`var a = 1;\n`);
+    expect(js).to.contain(`var b = 2;\n`);
   });
 
   it(`compiles JS in blocks`, function() {
     let js = testCompilation(`code`);
-    expect(js).to.contain(`foo = ['bar']`);
+    expect(js).to.contain(`foo = ['bar'];`);
+    expect(js).to.contain(`var z = [\n  1,\n  2,\n  3\n];`);
   });
 
   it(`compiles each`, function() {
