@@ -63,7 +63,7 @@ describe(`configuration`, function() {
     const filename = fixtureFilename(file);
 
     expect(render).withArgs(fixture(file), {filename}).to.throwException(function(err) {
-      const filenameAndLineNo = new RegExp(filename.replace(`/`, `\/`) + `:2`);
+      const filenameAndLineNo = new RegExp(filename.replace(`/`, `\\/`) + `:2`);
       expect(err.path).to.be(filename);
       expect(err.message).to.match(filenameAndLineNo);
       expect(err.message).to.match(/Unexpected identifier/);
@@ -74,7 +74,7 @@ describe(`configuration`, function() {
     const file = `break-compiler`;
     const filename = fixtureFilename(file);
     expect(render).withArgs(fixture(file), {filename}).to.throwException(function(err) {
-      const filenameAndLineNo = new RegExp(filename.replace(`/`, `\/`) + `:2`);
+      const filenameAndLineNo = new RegExp(filename.replace(`/`, `\\/`) + `:2`);
       expect(err.path).to.be(filename);
       expect(err.message).to.match(filenameAndLineNo);
       expect(err.message).to.match(/You can only have one top-level tag!/);
@@ -165,7 +165,7 @@ describe(`rendering`, function() {
 
         it(`runs "while" loops correctly`, function() {
           const html = renderFixture(`while`);
-          expect(html.match(/<div class=\"item\">/g)).to.have.length(5);
+          expect(html.match(/<div class="item">/g)).to.have.length(5);
         });
 
         it(`runs "else" block if no iteration occurred`, function() {
