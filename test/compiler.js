@@ -118,11 +118,6 @@ describe(`Compiler`, function() {
     testCompilation(`while`);
   });
 
-  it(`compiles mixins and exposes $mixins`, function() {
-    const js = testCompilation(`mixin`);
-    expect(js).to.contain(`$mixins = jade_mixins`);
-  });
-
   it(`compiles mixins without arguments`, function() {
     const js = testCompilation(`mixin`);
     expect(js).to.contain(`jade_mixins['item'].call(this)`);
@@ -147,5 +142,10 @@ describe(`Compiler`, function() {
   it(`compiles mixins with attributes`, function() {
     const js = testCompilation(`mixin-attrs`);
     expect(js).to.contain(`jade_mixins['item'].call({attributes: {`);
+  });
+
+  it(`compiles mixins and exposes $mixins`, function() {
+    const js = testCompilation(`mixin`);
+    expect(js).to.contain(`$mixins = jade_mixins`);
   });
 });

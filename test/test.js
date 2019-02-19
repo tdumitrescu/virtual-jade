@@ -364,6 +364,28 @@ describe(`rendering`, function() {
           );
         });
       });
+
+      describe(`mixins`, function() {
+        it(`render with args`, function() {
+          const html = renderFixture(`mixin-args`);
+          expect(html).to.be(
+            `<div class="items">` +
+              `<div class="item">` +
+                  `<div class="more-tree">6</div>` +
+              `</div>` +
+              `<div class="item">` +
+                  `<div class="more-tree">7</div>` +
+              `</div>` +
+            `</div>`
+          );
+        });
+
+        it(`render exactly the same with $mixins.item(x)`, function() {
+          const htmlMixin = renderFixture(`mixin-args`);
+          const html$Mixin = renderFixture(`mixin-args-$mixins`);
+          expect(htmlMixin).to.be(html$Mixin);
+        });
+      });
     });
   }
 });
