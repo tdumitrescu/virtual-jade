@@ -105,6 +105,24 @@ Otherwise, just create a module in the following format:
 const js = `module.exports = ${fnStr}`;
 ```
 
+You can get a reference to mixin functions via **$mixins**.
+Jade mixins boil down to functions that take arguments and return a tree of `h(name, attrs, children)`.
+They are like [React stateless components](https://reactjs.org/docs/components-and-props.html).
+
+```jade
+mixin item(x)
+  .item
+    .more-tree= x + 1
+
+list-virtual-scroll(props={itemRenderer: $mixins.item})
+```
+
+```jade
+// in list-virtual-scroll.jade
+each val in allItems.slice(startIdx, endIdx)
+  = props.itemRenderer(val)
+```
+
 [travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/tdumitrescu/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/tdumitrescu/virtual-jade.svg?style=flat-square
