@@ -19,10 +19,11 @@ function fixture(name) {
 function testCompilation(fixtureName, options) {
   if (!options) options = {};
   options.pretty = true;
-  let parser = new Parser(fixture(fixtureName));
-  let tokens = parser.parse();
-  let compiler = new Compiler(tokens, options);
-  let js = compiler.compile();
+  const parser = new Parser(fixture(fixtureName));
+  const tokens = parser.parse();
+  const compiler = new Compiler(tokens, options);
+  const js = compiler.compile();
+  // console.log(js);
   // make sure it's syntactically valid
   new Function(js);
   return js;
@@ -41,41 +42,41 @@ describe(`Compiler`, function() {
   });
 
   it(`compiles the boilerplate`, function() {
-    let js = testCompilation(`boilerplate`);
-    let root = eval(`${VDOM_RUNTIME}(function(){${js}})()`);
-    let html = toHTML(root);
+    const js = testCompilation(`boilerplate`);
+    const root = eval(`${VDOM_RUNTIME}(function(){${js}})()`);
+    const html = toHTML(root);
     parse5.parse(html, true);
   });
 
   it(`compiles attributes`, function() {
-    let js = testCompilation(`attributes`);
+    const js = testCompilation(`attributes`);
     expect(js).not.to.match(/\bclass\b/);
     expect(js.match(/"className"/g)).to.have.length(4);
   });
 
   it(`compiles data attributes to dataset`, function() {
-    let js = testCompilation(`attributes`);
+    const js = testCompilation(`attributes`);
     expect(js).not.to.match(/\bdata-foo\b/);
     expect(js).to.match(/\bdataset\b/);
   });
 
   it(`optionally does not compile data attributes to dataset`, function() {
-    let js = testCompilation(`attributes`, {marshalDataset: false});
+    const js = testCompilation(`attributes`, {marshalDataset: false});
     expect(js).not.to.match(/\bdataset\b/);
     expect(js).to.match(/\bdata-foo\b/);
   });
 
   it(`handles basic string interpolation`, function() {
-    let js = testCompilation(`interpolation`);
+    const js = testCompilation(`interpolation`);
     expect(js).to.contain(`+ (x + 5) +`);
     expect(js).to.contain(`+ (x - 2) +`);
   });
 
   it(`compiles if statements`, function() {
-    let js = testCompilation(`if`);
+    const js = testCompilation(`if`);
     expect(js).not.to.contain(`undefined(`);
-    let root = eval(`${VDOM_RUNTIME}(function(){${js}})()`);
-    let html = toHTML(root);
+    const root = eval(`${VDOM_RUNTIME}(function(){${js}})()`);
+    const html = toHTML(root);
     parse5.parse(html, true);
     expect(html).to.contain(`<span></span><span></span>`);
     expect(html).not.to.contain(`<em>`);
@@ -89,13 +90,13 @@ describe(`Compiler`, function() {
   });
 
   it(`compiles top-level JS`, function() {
-    let js = testCompilation(`top-level-code`);
+    const js = testCompilation(`top-level-code`);
     expect(js).to.contain(`var a = 1;\n`);
     expect(js).to.contain(`var b = 2;\n`);
   });
 
   it(`compiles JS in blocks`, function() {
-    let js = testCompilation(`code`);
+    const js = testCompilation(`code`);
     expect(js).to.contain(`foo = ['bar'];`);
     expect(js).to.contain(`var z = [\n  1,\n  2,\n  3\n];`);
   });
@@ -105,7 +106,7 @@ describe(`Compiler`, function() {
   });
 
   it(`compiles each, index`, function() {
-    let js = testCompilation(`each-index`);
+    const js = testCompilation(`each-index`);
     expect(js).to.contain(`anIndex`);
   });
 
@@ -117,29 +118,34 @@ describe(`Compiler`, function() {
     testCompilation(`while`);
   });
 
+  it(`compiles mixins and exposes $mixins`, function() {
+    const js = testCompilation(`mixin`);
+    expect(js).to.contain(`$mixins = jade_mixins`);
+  });
+
   it(`compiles mixins without arguments`, function() {
-    let js = testCompilation(`mixin`);
+    const js = testCompilation(`mixin`);
     expect(js).to.contain(`jade_mixins['item'].call(this)`);
   });
 
   it(`compiles mixins with arguments`, function() {
-    let js = testCompilation(`mixin-args`);
+    const js = testCompilation(`mixin-args`);
     expect(js).to.contain(`jade_mixins['item'].call(this, 5)`);
   });
 
   it(`compiles mixins with rest arguments`, function() {
-    let js = testCompilation(`mixin-rest`);
+    const js = testCompilation(`mixin-rest`);
     expect(js).to.contain(`function(x)`);
     expect(js).to.contain(`jade_mixins['item'].call(this, 5, 'a', 'b')`);
   });
 
   it(`compiles mixins with blocks`, function() {
-    let js = testCompilation(`mixin-block`);
+    const js = testCompilation(`mixin-block`);
     expect(js).to.contain(`jade_mixins['item'].call({block: function()`);
   });
 
   it(`compiles mixins with attributes`, function() {
-    let js = testCompilation(`mixin-attrs`);
+    const js = testCompilation(`mixin-attrs`);
     expect(js).to.contain(`jade_mixins['item'].call({attributes: {`);
   });
 });

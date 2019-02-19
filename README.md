@@ -1,5 +1,6 @@
 # virtual-jade
 
+[![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
@@ -108,3 +109,5 @@ const js = `module.exports = ${fnStr}`;
 [travis-url]: https://travis-ci.org/tdumitrescu/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/tdumitrescu/virtual-jade.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/tdumitrescu/virtual-jade
+[npm-image]: https://img.shields.io/npm/v/virtual-jade.svg
+[npm-url]: https://www.npmjs.com/package/virtual-jade
