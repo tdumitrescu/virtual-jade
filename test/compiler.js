@@ -23,7 +23,6 @@ function testCompilation(fixtureName, options) {
   const tokens = parser.parse();
   const compiler = new Compiler(tokens, options);
   const js = compiler.compile();
-  // console.log(js);
   // make sure it's syntactically valid
   new Function(js);
   return js;
