@@ -1,5 +1,6 @@
 # virtual-jade
 
+[![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
 [![Test coverage][coveralls-image]][coveralls-url]
 
@@ -104,7 +105,28 @@ Otherwise, just create a module in the following format:
 const js = `module.exports = ${fnStr}`;
 ```
 
+Within code blocks in your template code, you can access Jade mixin functions via the `$mixins` variable.
+In virtual-jade, mixins boil down to functions that take arguments and return a tree of `h(name, attrs, children)`.
+They are like [React stateless components](https://reactjs.org/docs/components-and-props.html).
+Accessing them via `$mixins` is useful for special cases where you want to pass around handles to blocks of Jade code as callback functions (see example below).
+
+```jade
+mixin item(x)
+  .item
+    .more-tree= x + 1
+
+list-virtual-scroll(props={itemRenderer: $mixins.item})
+```
+
+```jade
+// in list-virtual-scroll.jade
+each val in allItems.slice(startIdx, endIdx)
+  = props.itemRenderer(val)
+```
+
 [travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/tdumitrescu/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/tdumitrescu/virtual-jade.svg?style=flat-square
 [coveralls-url]: https://coveralls.io/r/tdumitrescu/virtual-jade
+[npm-image]: https://img.shields.io/npm/v/virtual-jade.svg
+[npm-url]: https://www.npmjs.com/package/virtual-jade

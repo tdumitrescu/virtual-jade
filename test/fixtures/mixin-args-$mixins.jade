@@ -1,0 +1,7 @@
+mixin item(x)
+  .item
+    .more-tree= x + 1
+
+.items
+  = $mixins.item(5)
+  = $mixins.item(6)
