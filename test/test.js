@@ -366,7 +366,7 @@ describe(`rendering`, function() {
       });
 
       describe(`mixins`, function() {
-        it(`render with args`, function() {
+        it(`renders mixins with args`, function() {
           const html = renderFixture(`mixin-args`);
           expect(html).to.be(
             `<div class="items">` +
@@ -380,7 +380,7 @@ describe(`rendering`, function() {
           );
         });
 
-        it(`render exactly the same with $mixins.item(x)`, function() {
+        it(`renders mixins exactly the same when calling mixin functions from code blocks`, function() {
           const htmlMixin = renderFixture(`mixin-args`);
           const html$Mixin = renderFixture(`mixin-args-$mixins`);
           expect(htmlMixin).to.be(html$Mixin);

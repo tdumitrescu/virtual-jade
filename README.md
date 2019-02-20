@@ -105,9 +105,10 @@ Otherwise, just create a module in the following format:
 const js = `module.exports = ${fnStr}`;
 ```
 
-You can get a reference to mixin functions via **$mixins**.
-Jade mixins boil down to functions that take arguments and return a tree of `h(name, attrs, children)`.
+Within code blocks in your template code, you can access Jade mixin functions via the `$mixins` variable.
+In virtual-jade, mixins boil down to functions that take arguments and return a tree of `h(name, attrs, children)`.
 They are like [React stateless components](https://reactjs.org/docs/components-and-props.html).
+Accessing them via `$mixins` is useful for special cases where you want to pass around handles to blocks of Jade code as callback functions (see example below).
 
 ```jade
 mixin item(x)
