@@ -407,10 +407,14 @@ describe(`rendering`, function() {
 });
 
 describe(`snabbdom-specific rendering`, function() {
-  const html = fixtureToHTML(`snabb`, {}, {
-    vdom: `snabbdom`,
-    snabbArgs: true,
-    pretty: true,
+  let html;
+
+  beforeEach(function() {
+    html = fixtureToHTML(`snabb`, {}, {
+      vdom: `snabbdom`,
+      snabbArgs: true,
+      pretty: true,
+    });
   });
 
   it(`renders plain objects`, function() {
