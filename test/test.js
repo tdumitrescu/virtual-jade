@@ -409,6 +409,10 @@ describe(`rendering`, function() {
         it(`supports tag interpolation syntax`, function() {
           expect(html).to.contain(`<div class="tag-interpolation">Sweet <blink>flashy</blink> tags</div>`);
         });
+
+        it(`supports block-in-tag trailing dot syntax`, function() {
+          expect(html).to.contain(`<div class="block-in-tag">Arbitrary text and more arbitrary text</div>`);
+        });
       });
     });
   }
