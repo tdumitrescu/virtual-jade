@@ -124,6 +124,14 @@ each val in allItems.slice(startIdx, endIdx)
   = props.itemRenderer(val)
 ```
 
+## Development notes
+- Install deps: `npm install`
+- Run tests: `npm test`
+- Run linter: `npm run lint`
+- Generate coverage report: `npm run test-cov`
+- Run all the verifications together: `npm run test-ci`
+- Run tests with verbose debugging output (compiled functions as well as rendered HTML): `DEBUG=test npm test`
+
 [travis-image]: https://img.shields.io/travis/tdumitrescu/virtual-jade/master.svg?style=flat-square
 [travis-url]: https://travis-ci.org/tdumitrescu/virtual-jade
 [coveralls-image]: https://img.shields.io/coveralls/tdumitrescu/virtual-jade.svg?style=flat-square
