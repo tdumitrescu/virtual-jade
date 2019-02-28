@@ -401,6 +401,10 @@ describe(`rendering`, function() {
         it(`renders piped text with spaces between lines`, function() {
           expect(html).to.contain(`<div class="piped">Hello world</div>`);
         });
+
+        it(`does not insert extraneous whitespace between tags`, function() {
+          expect(html).to.contain(`<div class="tags-whitespace">You put the em<em>pha</em>sis on the wrong syl<em>la</em>ble.</div>`);
+        });
       });
     });
   }
