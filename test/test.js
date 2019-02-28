@@ -397,6 +397,10 @@ describe(`rendering`, function() {
         it(`renders inlined text`, function() {
           expect(html).to.contain(`<div class="inline-in-tag">Inlined within tag</div>`);
         });
+
+        it(`renders piped text with spaces between lines`, function() {
+          expect(html).to.contain(`<div class="piped">Hello world</div>`);
+        });
       });
     });
   }
