@@ -386,6 +386,18 @@ describe(`rendering`, function() {
           expect(htmlMixin).to.be(html$Mixin);
         });
       });
+
+      describe(`plain text`, function() {
+        let html;
+
+        beforeEach(function() {
+          html = renderFixture(`text`);
+        });
+
+        it(`renders inlined text`, function() {
+          expect(html).to.contain(`<div class="inline-in-tag">Inlined within tag</div>`);
+        });
+      });
     });
   }
 });
