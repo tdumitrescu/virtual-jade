@@ -405,6 +405,10 @@ describe(`rendering`, function() {
         it(`does not insert extraneous whitespace between tags`, function() {
           expect(html).to.contain(`<div class="tags-whitespace">You put the em<em>pha</em>sis on the wrong syl<em>la</em>ble.</div>`);
         });
+
+        it(`supports tag interpolation syntax`, function() {
+          expect(html).to.contain(`<div class="tag-interpolation">Sweet <blink>flashy</blink> tags</div>`);
+        });
       });
     });
   }
