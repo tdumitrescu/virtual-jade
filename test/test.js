@@ -9,6 +9,7 @@ const parse5 = require(`parse5-utils`);
 const path = require(`path`);
 const vdomToHTML = require(`vdom-to-html`);
 const snabbdomToHTML = require(`snabbdom-to-html`);
+const escape = require(`escape-html`);
 
 const render = require(`..`);
 
@@ -435,6 +436,10 @@ describe(`snabbdom-specific rendering`, function() {
 
   it(`renders arbitrary attributes`, function() {
     expect(html).to.contain(`bar="baz"`);
+  });
+
+  it(`serializes object attributes`, function() {
+    expect(html).to.contain(`obj="${escape(JSON.stringify({hello: `world`}))}"`);
   });
 
   it(`renders properties`, function() {

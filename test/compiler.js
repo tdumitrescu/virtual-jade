@@ -47,6 +47,11 @@ describe(`Compiler`, function() {
     parse5.parse(html, true);
   });
 
+  it(`optionally wraps attributes in a stringify call`, function() {
+    const js = testCompilation(`attributes`, {rawProps: true});
+    expect(js).to.contain(`__vjadeStringifyAttrsIfObj({obj: {foo: 'bar'}})`);
+  });
+
   it(`compiles attributes`, function() {
     const js = testCompilation(`attributes`);
     expect(js).not.to.match(/\bclass\b/);
