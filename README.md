@@ -86,6 +86,7 @@ Options are:
   Requires you to install `js-beautify` yourself.
 - `propsWrapper`: optional object to wrap Jade attributes in; for example, with `propsWrapper = 'props'`, the template `div(foo="bar")` will translate to something like `h('div', {props: {foo: 'bar'}})` rather than `h('div', {foo: 'bar'})`
 - `rawProps`: whether to skip Jade attribute -> HTML property conversion; this is set to true in the default Snabbdom configuration
+- `serializeAttrsObjects`: special behavior for the Snabbdom-style `attrs` attribute object. If true, object values within an `attrs` attribute will be automatically stringified (since HTML element attributes are always strings); for example, in `div(attrs={foo: {hello: 'world'}})` the `foo` attr will end up in HTML as `"{&quot;hello&quot;:&quot;world&quot;}"` (rather than `"[object Object]"`).
 - `runtime`: optional override to include any arbitrary Virtual DOM library that defines the `h()` hyperscript function. E.g. `var h = require('my-special-lib/h');`
 - `vdom`: name of the Virtual DOM library configuration to load (currently either `virtual-dom` or `snabbdom`).
 
