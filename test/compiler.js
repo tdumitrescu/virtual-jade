@@ -48,7 +48,7 @@ describe(`Compiler`, function() {
   });
 
   it(`optionally wraps attributes in a stringify call`, function() {
-    const js = testCompilation(`attributes`, {rawProps: true});
+    const js = testCompilation(`attributes`, {rawProps: true, serializeAttrsObjects: true});
     expect(js).to.contain(`__vjadeStringifyAttrsIfObj({obj: {foo: 'bar'}})`);
   });
 
