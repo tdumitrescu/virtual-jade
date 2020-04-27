@@ -441,6 +441,10 @@ describe(`snabbdom-specific rendering`, function() {
     expect(html).to.contain(`obj="{&quot;hello&quot;:&quot;world&quot;}"`);
   });
 
+  it(`doesn't serialize object attributes that define toString`, function() {
+    expect(html).to.contain(`stringable="asAString"`);
+  });
+
   it(`renders properties`, function() {
     expect(html).to.contain(`id="xxx"`);
   });

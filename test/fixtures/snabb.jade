@@ -1,7 +1,7 @@
 //- snabbdom-specific API
 .jade-class.foo(
   class={'obj-class': true}
-  attrs={bar: 'baz', obj: {hello: 'world'}}
+  attrs={bar: 'baz', obj: {hello: 'world'}, stringable: {toString() {return 'asAString'}}}
   props={id: 'xxx'}
 )
   .single-class(attrs={yyy: 'zzz'})
