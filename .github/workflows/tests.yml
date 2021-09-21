@@ -24,3 +24,4 @@ jobs:
     - run: npm ci
     - run: npm run lint
     - run: npm run test-cov
+    - run: cat ./coverage/lcov.info | npx coveralls
